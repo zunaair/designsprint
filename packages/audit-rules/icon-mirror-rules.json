@@ -1,0 +1,82 @@
+{
+  "version": "1.0.0",
+  "description": "Rules for which icons must be mirrored in RTL layouts",
+  "must_mirror": [
+    { "pattern": "arrow-right", "reason": "Directional arrows must flip in RTL" },
+    { "pattern": "arrow-left", "reason": "Directional arrows must flip in RTL" },
+    { "pattern": "chevron-right", "reason": "Navigation chevrons must flip in RTL" },
+    { "pattern": "chevron-left", "reason": "Navigation chevrons must flip in RTL" },
+    { "pattern": "forward", "reason": "Forward/back controls flip in RTL" },
+    { "pattern": "back", "reason": "Forward/back controls flip in RTL" },
+    { "pattern": "next", "reason": "Next/prev controls flip in RTL" },
+    { "pattern": "prev", "reason": "Next/prev controls flip in RTL" },
+    { "pattern": "send", "reason": "Send icon (paper plane) flips in RTL" },
+    { "pattern": "reply", "reason": "Reply icon flips in RTL" },
+    { "pattern": "undo", "reason": "Undo/redo icons flip in RTL" },
+    { "pattern": "redo", "reason": "Undo/redo icons flip in RTL" },
+    { "pattern": "indent", "reason": "Text indent icons flip in RTL" },
+    { "pattern": "outdent", "reason": "Text indent icons flip in RTL" },
+    { "pattern": "list", "reason": "Ordered/unordered list icons flip in RTL" },
+    { "pattern": "menu", "reason": "Hamburger menu with lines aligned to start" },
+    { "pattern": "open-quote", "reason": "Quotation marks flip in Arabic" },
+    { "pattern": "close-quote", "reason": "Quotation marks flip in Arabic" },
+    { "pattern": "breadcrumb-separator", "reason": "Breadcrumb direction arrows flip" },
+    { "pattern": "pagination-next", "reason": "Pagination arrows flip" },
+    { "pattern": "pagination-prev", "reason": "Pagination arrows flip" }
+  ],
+  "must_not_mirror": [
+    { "pattern": "clock", "reason": "Clock direction is universal" },
+    { "pattern": "time", "reason": "Time is universal" },
+    { "pattern": "calendar", "reason": "Calendar layout is universal" },
+    { "pattern": "chart", "reason": "Data charts are universal" },
+    { "pattern": "graph", "reason": "Graphs are universal" },
+    { "pattern": "play", "reason": "Media controls are universal (ISO standard)" },
+    { "pattern": "pause", "reason": "Media controls are universal" },
+    { "pattern": "stop", "reason": "Media controls are universal" },
+    { "pattern": "volume", "reason": "Volume icon is universal" },
+    { "pattern": "phone", "reason": "Phone icon is universal" },
+    { "pattern": "email", "reason": "Email/envelope icon is universal" },
+    { "pattern": "settings", "reason": "Settings gear is universal" },
+    { "pattern": "user", "reason": "User/person icon is universal" },
+    { "pattern": "home", "reason": "Home icon is universal" },
+    { "pattern": "search", "reason": "Magnifying glass is universal" },
+    { "pattern": "heart", "reason": "Heart/like is universal" },
+    { "pattern": "star", "reason": "Star/rating is universal" },
+    { "pattern": "warning", "reason": "Warning triangle is universal" },
+    { "pattern": "info", "reason": "Info circle is universal" },
+    { "pattern": "check", "reason": "Checkmark is universal" },
+    { "pattern": "close", "reason": "X/close is universal" },
+    { "pattern": "trash", "reason": "Delete/trash is universal" },
+    { "pattern": "edit", "reason": "Edit/pencil is universal" },
+    { "pattern": "camera", "reason": "Camera is universal" },
+    { "pattern": "image", "reason": "Image/photo icon is universal" },
+    { "pattern": "upload", "reason": "Upload arrow (vertical) is universal" },
+    { "pattern": "download", "reason": "Download arrow (vertical) is universal" },
+    { "pattern": "lock", "reason": "Lock icon is universal" },
+    { "pattern": "share", "reason": "Share icon is universal" },
+    { "pattern": "location", "reason": "Map pin is universal" },
+    { "pattern": "map", "reason": "Map is universal" }
+  ],
+  "context_dependent": [
+    {
+      "pattern": "drag-handle",
+      "reason": "May or may not flip depending on list direction",
+      "guidance": "Flip if used as a directional indicator, keep if decorative"
+    },
+    {
+      "pattern": "sort",
+      "reason": "Sort arrow direction depends on implementation",
+      "guidance": "Keep vertical sort arrows as-is; flip horizontal sort arrows"
+    },
+    {
+      "pattern": "expand",
+      "reason": "Expand direction depends on panel direction",
+      "guidance": "Flip if panel opens left/right, keep if opens up/down"
+    },
+    {
+      "pattern": "collapse",
+      "reason": "Collapse direction depends on panel direction",
+      "guidance": "Flip if panel opens left/right, keep if opens up/down"
+    }
+  ]
+}

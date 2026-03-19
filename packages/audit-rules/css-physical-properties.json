@@ -1,0 +1,103 @@
+{
+  "version": "1.0.0",
+  "description": "Physical CSS properties that should be replaced with logical equivalents in RTL-aware code",
+  "properties": [
+    {
+      "physical": "margin-left",
+      "logical": "margin-inline-start",
+      "severity": "major"
+    },
+    {
+      "physical": "margin-right",
+      "logical": "margin-inline-end",
+      "severity": "major"
+    },
+    {
+      "physical": "padding-left",
+      "logical": "padding-inline-start",
+      "severity": "major"
+    },
+    {
+      "physical": "padding-right",
+      "logical": "padding-inline-end",
+      "severity": "major"
+    },
+    {
+      "physical": "border-left",
+      "logical": "border-inline-start",
+      "severity": "major"
+    },
+    {
+      "physical": "border-right",
+      "logical": "border-inline-end",
+      "severity": "major"
+    },
+    {
+      "physical": "border-left-width",
+      "logical": "border-inline-start-width",
+      "severity": "minor"
+    },
+    {
+      "physical": "border-right-width",
+      "logical": "border-inline-end-width",
+      "severity": "minor"
+    },
+    {
+      "physical": "border-left-color",
+      "logical": "border-inline-start-color",
+      "severity": "minor"
+    },
+    {
+      "physical": "border-right-color",
+      "logical": "border-inline-end-color",
+      "severity": "minor"
+    },
+    {
+      "physical": "border-left-style",
+      "logical": "border-inline-start-style",
+      "severity": "minor"
+    },
+    {
+      "physical": "border-right-style",
+      "logical": "border-inline-end-style",
+      "severity": "minor"
+    },
+    {
+      "physical": "left",
+      "logical": "inset-inline-start",
+      "severity": "major",
+      "note": "Only flag when used for directional positioning, not absolute layout"
+    },
+    {
+      "physical": "right",
+      "logical": "inset-inline-end",
+      "severity": "major",
+      "note": "Only flag when used for directional positioning, not absolute layout"
+    },
+    {
+      "physical": "text-align: left",
+      "logical": "text-align: start",
+      "severity": "critical"
+    },
+    {
+      "physical": "text-align: right",
+      "logical": "text-align: end",
+      "severity": "critical"
+    },
+    {
+      "physical": "float: left",
+      "logical": "float: inline-start",
+      "severity": "major"
+    },
+    {
+      "physical": "float: right",
+      "logical": "float: inline-end",
+      "severity": "major"
+    },
+    {
+      "physical": "border-radius (top-left/top-right/bottom-left/bottom-right)",
+      "logical": "border-start-start-radius / border-start-end-radius / border-end-start-radius / border-end-end-radius",
+      "severity": "minor"
+    }
+  ]
+}

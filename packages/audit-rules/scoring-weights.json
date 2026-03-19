@@ -1,0 +1,69 @@
+{
+  "version": "1.0.0",
+  "total_points": 100,
+  "categories": [
+    {
+      "id": "direction",
+      "label": "HTML Direction",
+      "description": "Presence and correctness of dir=\"rtl\" and lang=\"ar\" attributes",
+      "max_score": 20,
+      "weight": 20
+    },
+    {
+      "id": "css-logical",
+      "label": "CSS Logical Properties",
+      "description": "Use of CSS logical properties instead of physical directional properties",
+      "max_score": 20,
+      "weight": 20
+    },
+    {
+      "id": "typography",
+      "label": "Arabic Typography",
+      "description": "Letter-spacing, line-height, text decoration, and font rendering for Arabic text",
+      "max_score": 15,
+      "weight": 15
+    },
+    {
+      "id": "layout-mirror",
+      "label": "Layout Mirroring",
+      "description": "Navigation order, sidebar position, and icon mirroring for RTL",
+      "max_score": 15,
+      "weight": 15
+    },
+    {
+      "id": "mobile-rtl",
+      "label": "Mobile RTL",
+      "description": "RTL rendering correctness on mobile viewport (375×812)",
+      "max_score": 15,
+      "weight": 15
+    },
+    {
+      "id": "bidi",
+      "label": "BiDi Handling",
+      "description": "Correct handling of mixed Arabic and Latin content, bdi tags, form inputs",
+      "max_score": 10,
+      "weight": 10
+    },
+    {
+      "id": "text-overflow",
+      "label": "Text Overflow",
+      "description": "Detection of clipped or overflowing Arabic text in UI elements",
+      "max_score": 5,
+      "weight": 5
+    },
+    {
+      "id": "font-fallback",
+      "label": "Font Fallback",
+      "description": "Arabic-capable font in font-family stack and successful font loading",
+      "max_score": 0,
+      "weight": 0,
+      "note": "Font fallback issues are penalised within the typography category score"
+    }
+  ],
+  "thresholds": {
+    "poor": { "min": 0, "max": 39, "color": "#EF4444", "label": "Poor" },
+    "needs-work": { "min": 40, "max": 69, "color": "#F97316", "label": "Needs Work" },
+    "good": { "min": 70, "max": 89, "color": "#EAB308", "label": "Good" },
+    "excellent": { "min": 90, "max": 100, "color": "#22C55E", "label": "Excellent" }
+  }
+}
