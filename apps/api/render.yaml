@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: designsprint-api
+    runtime: node
+    rootDir: apps/api
+    buildCommand: pnpm install --frozen-lockfile && node node_modules/@nestjs/cli/bin/nest.js build
+    startCommand: node dist/main
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: DATABASE_URL
+        fromDatabase:
+          name: designsprint-db
+          property: connectionString
+      - key: REDIS_URL
+        sync: false
+    healthCheckPath: /
+
+databases:
+  - name: designsprint-db
+    databaseName: designsprint
+    user: designsprint
