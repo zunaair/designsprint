@@ -449,6 +449,124 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* ═══ Trusted By ═══════════════════════════════════════ */}
+      <section style={{ paddingBottom: 80 }}>
+        <div className="enter-up" style={{ textAlign: 'center', marginBottom: 36 }}>
+          <p style={{ fontSize: 12, fontWeight: 600, color: '#334155', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+            Built for teams who care about Arabic UX
+          </p>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 48, flexWrap: 'wrap', opacity: 0.4 }}>
+          {['E-Commerce', 'Banking', 'Government', 'Healthcare', 'Travel', 'SaaS'].map(name => (
+            <div key={name} style={{ fontSize: 14, fontWeight: 700, color: '#475569', letterSpacing: '0.05em' }}>
+              {name}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══ Pricing ══════════════════════════════════════════ */}
+      <section style={{ paddingBottom: 96 }}>
+        <div className="enter-up" style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14,
+            fontSize: 11, fontWeight: 700, color: '#6366f1', textTransform: 'uppercase', letterSpacing: '0.1em',
+          }}>
+            <span style={{ width: 16, height: 1, background: '#6366f1', display: 'inline-block' }} />
+            Pricing
+            <span style={{ width: 16, height: 1, background: '#6366f1', display: 'inline-block' }} />
+          </div>
+          <h2 style={{ fontSize: 32, fontWeight: 900, color: '#f8fafc', letterSpacing: '-0.5px', marginBottom: 8 }}>Simple, transparent pricing</h2>
+          <p style={{ fontSize: 15, color: '#64748b', maxWidth: 420, margin: '0 auto' }}>
+            Start free. Upgrade when you need the full report.
+          </p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16, maxWidth: 900, margin: '0 auto' }}>
+          {/* Free */}
+          <div className="enter-up d-0" style={{
+            background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: 20, padding: '32px 28px',
+          }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>Free</div>
+            <div style={{ fontSize: 42, fontWeight: 900, color: '#f8fafc', marginBottom: 4 }}>$0</div>
+            <div style={{ fontSize: 13, color: '#475569', marginBottom: 24 }}>3 scans per day</div>
+            {['Score + grade', 'Severity breakdown', 'Category overview', 'Email capture'].map(f => (
+              <div key={f} style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10, fontSize: 13, color: '#94a3b8' }}>
+                <span style={{ color: '#4ade80' }}>✓</span> {f}
+              </div>
+            ))}
+            <button style={{
+              width: '100%', marginTop: 20, padding: '12px 0', borderRadius: 12,
+              background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+              color: '#94a3b8', fontSize: 14, fontWeight: 700, cursor: 'pointer',
+            }}>Current plan</button>
+          </div>
+
+          {/* Starter */}
+          <div className="enter-up d-1" style={{
+            background: 'linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.05))',
+            border: '1.5px solid rgba(99,102,241,0.35)',
+            borderRadius: 20, padding: '32px 28px', position: 'relative',
+            boxShadow: '0 0 40px rgba(99,102,241,0.1)',
+          }}>
+            <span style={{ position: 'absolute', top: -10, right: 20, fontSize: 10, fontWeight: 800, padding: '4px 12px', borderRadius: 999, background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', color: '#fff', letterSpacing: '0.05em' }}>POPULAR</span>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#a5b4fc', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>Starter</div>
+            <div style={{ fontSize: 42, fontWeight: 900, color: '#f8fafc', marginBottom: 4 }}>$49</div>
+            <div style={{ fontSize: 13, color: '#475569', marginBottom: 24 }}>one-time · single page</div>
+            {['Everything in Free', 'Full issue details', 'Fix code snippets', 'PDF report download', 'AI explanations (AR + EN)', 'Re-scan after fix'].map(f => (
+              <div key={f} style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10, fontSize: 13, color: '#c7d2fe' }}>
+                <span style={{ color: '#818cf8' }}>✓</span> {f}
+              </div>
+            ))}
+            <button className="btn-primary" style={{ width: '100%', marginTop: 20 }}>Get started</button>
+          </div>
+
+          {/* Pro */}
+          <div className="enter-up d-2" style={{
+            background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: 20, padding: '32px 28px',
+          }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>Pro</div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+              <span style={{ fontSize: 42, fontWeight: 900, color: '#f8fafc' }}>$199</span>
+              <span style={{ fontSize: 14, color: '#475569' }}>/mo</span>
+            </div>
+            <div style={{ fontSize: 13, color: '#475569', marginBottom: 24 }}>up to 100 pages</div>
+            {['Everything in Starter', 'Full-site crawl', 'Mobile + Desktop', 'Competitor comparison', 'Monthly re-scans', 'Priority support'].map(f => (
+              <div key={f} style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10, fontSize: 13, color: '#94a3b8' }}>
+                <span style={{ color: '#4ade80' }}>✓</span> {f}
+              </div>
+            ))}
+            <button style={{
+              width: '100%', marginTop: 20, padding: '12px 0', borderRadius: 12,
+              background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+              color: '#94a3b8', fontSize: 14, fontWeight: 700, cursor: 'pointer',
+            }}>Contact sales</button>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ CTA ══════════════════════════════════════════════ */}
+      <section style={{ paddingBottom: 96, textAlign: 'center' }}>
+        <div className="enter-up" style={{
+          background: 'linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.06))',
+          border: '1px solid rgba(99,102,241,0.25)',
+          borderRadius: 28, padding: '56px 32px',
+          boxShadow: '0 0 60px rgba(99,102,241,0.08)',
+        }}>
+          <h2 style={{ fontSize: 32, fontWeight: 900, color: '#f8fafc', letterSpacing: '-0.5px', marginBottom: 12 }}>
+            Stop losing Arabic customers
+          </h2>
+          <p style={{ fontSize: 16, color: '#64748b', maxWidth: 480, margin: '0 auto 32px', lineHeight: 1.7 }}>
+            78% of GCC traffic is mobile. If your Arabic UX is broken, you are losing revenue every day. Find out in 60 seconds.
+          </p>
+          <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="btn-primary" style={{ display: 'inline-flex', padding: '14px 36px', fontSize: 16 }}>
+            Scan your website now →
+          </a>
+        </div>
+      </section>
     </main>
   );
 }
