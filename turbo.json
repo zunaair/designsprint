@@ -1,7 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
-  "globalEnv": ["PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD", "NEXT_PUBLIC_API_URL"],
+  "globalEnv": ["NEXT_PUBLIC_API_URL"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

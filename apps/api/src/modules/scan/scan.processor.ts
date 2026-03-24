@@ -48,19 +48,33 @@ export class ScanProcessor {
 
       this.logger.log(`Scan ${scanId} completed successfully`);
     } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      this.logger.error(`Scan ${scanId} failed: ${message}`);
+      const rawMessage = error instanceof Error ? error.message : String(error);
+      // Truncate to avoid exceeding database column limits
+      const message = rawMessage.length > 1000 ? rawMessage.slice(0, 1000) + '...' : rawMessage;
+      this.logger.error(`Scan ${scanId} failed: ${message}`, error instanceof Error ? error.stack : undefined);
 
-      await this.prisma.scan.update({
-        where: { id: scanId },
-        data: {
-          status: 'FAILED',
-          error: message,
-          completed_at: new Date(),
-        },
-      });
+      try {
+        await this.prisma.scan.update({
+          where: { id: scanId },
+          data: {
+            status: 'FAILED',
+            error: message,
+            completed_at: new Date(),
+          },
+        });
+      } catch (dbError) {
+        this.logger.error(
+          `Scan ${scanId}: failed to persist FAILED status — ${dbError instanceof Error ? dbError.message : String(dbError)}`,
+        );
+      }
     } finally {
-      this.scanService.releaseIpSlot(clientIp);
+      try {
+        this.scanService.releaseIpSlot(clientIp);
+      } catch (releaseError) {
+        this.logger.error(
+          `Scan ${scanId}: failed to release IP slot — ${releaseError instanceof Error ? releaseError.message : String(releaseError)}`,
+        );
+      }
     }
   }
 }
