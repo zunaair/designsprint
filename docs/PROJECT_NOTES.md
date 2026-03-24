@@ -615,6 +615,26 @@ node dist/main
 **Cause:** `app.module.ts` used `REDIS_HOST`/`REDIS_PORT` env vars but only `REDIS_URL` was set. Defaulted to `localhost`.
 **Fix:** Updated BullModule config to parse `REDIS_URL` with URL constructor, extract host/port/password, and enable TLS for `rediss://`.
 
+### Bug 17: Render — Database P1017 with both internal and external URLs
+**Error:** `P1017: Server has closed the connection` (5 retries all failed).
+**Cause:** Render free PostgreSQL and web service were in different projects — internal networking didn't work. External SSL connections also failed.
+**Fix:** Migrated database from Render PostgreSQL to **Neon.tech** (free PostgreSQL with reliable external SSL). Connection worked immediately.
+
+### Bug 18: Prisma — Cannot insert multiple commands into prepared statement
+**Error:** `Raw query failed. Code: 42601. Message: ERROR: cannot insert multiple commands into a prepared statement`
+**Cause:** `$executeRawUnsafe()` tried to run all CREATE TABLE/INDEX statements in a single call.
+**Fix:** Split into separate `$executeRawUnsafe()` calls — one per SQL statement (enums, tables, indexes each in their own call).
+
+### Bug 19: Render — Playwright Chromium not installed
+**Error:** `browserType.launch: Executable doesn't exist at /opt/render/.cache/ms-playwright/chromium_headless_shell`
+**Cause:** Render free tier lacks system libraries for Chromium. `--with-deps` needs root access (denied).
+**Fix:** Replaced Playwright browser-based crawler with a lightweight **HTTP fetch + static HTML analysis** scanner. Uses `fetch()` to get HTML and runs regex-based checks. All 8 audit categories reimplemented as static analysis.
+
+### Bug 20: Render — pnpm lockfile outdated after dependency move
+**Error:** `ERR_PNPM_OUTDATED_LOCKFILE Cannot install with "frozen-lockfile" because pnpm-lock.yaml is not up to date`
+**Cause:** Moved `playwright` from dependencies to devDependencies without updating lockfile.
+**Fix:** Changed Render build command to use `--no-frozen-lockfile` flag.
+
 ---
 
 ## 17. What Was Achieved
@@ -622,7 +642,7 @@ node dist/main
 ### ✅ Full-Stack SaaS Built From Scratch
 - TypeScript monorepo with shared types
 - NestJS backend with 8 audit check modules
-- Playwright-based headless browser crawler
+- Lightweight HTTP-based crawler (static HTML analysis, no browser needed)
 - Next.js 14 frontend with glassmorphism design system
 - PostgreSQL database with Prisma ORM
 - BullMQ job queue for async processing
@@ -631,7 +651,7 @@ node dist/main
 ### ✅ Production Deployment
 - Frontend live on Vercel (global CDN)
 - Backend API live on Render
-- PostgreSQL database on Render
+- PostgreSQL database on Neon.tech (Singapore region)
 - Redis on Upstash (Singapore region)
 - Auto-deploy from GitHub pushes
 - All free tier — $0/month total cost
@@ -645,6 +665,9 @@ node dist/main
 - "How it works" 3-step section
 - Category grid with hover effects
 - Smooth expand/collapse animations
+- Pricing section (Free / Starter $49 / Pro $199)
+- "Trusted by" industry row
+- CTA banner with scroll-to-top
 
 ### ✅ Business Model Implementation
 - Freemium gate (score visible, details locked)
@@ -756,7 +779,25 @@ node dist/main
 
 ## Summary
 
-DesignSprint™ is a fully functional Arabic UX audit SaaS, built from scratch as a TypeScript monorepo, deployed across Vercel + Render + Upstash at zero cost, implementing a freemium business model with 8 specialized audit categories scoring websites out of 100 points. The MVP is live, the architecture is production-ready, and the roadmap is clear for scaling to Pro, Enterprise, and multi-language support.
+DesignSprint™ is a fully functional Arabic UX audit SaaS, built from scratch as a TypeScript monorepo, deployed across Vercel + Render + Neon + Upstash at zero cost, implementing a freemium business model with 8 specialized audit categories scoring websites out of 100 points. The MVP is live, the architecture is production-ready, and the roadmap is clear for scaling to Pro, Enterprise, and multi-language support.
+
+### Live URLs
+
+| Service | URL |
+|---------|-----|
+| **Frontend** | [designsprint-apii.vercel.app](https://designsprint-apii.vercel.app) |
+| **Backend API** | [designsprint-api.onrender.com](https://designsprint-api.onrender.com) |
+| **GitHub** | [github.com/zunaair/designsprint](https://github.com/zunaair/designsprint) |
+
+### Final Deployment Stack (All Free Tier)
+
+| Service | Provider | Region | Cost |
+|---------|----------|--------|------|
+| Frontend | Vercel | Global CDN | $0 |
+| Backend API | Render | Singapore | $0 |
+| PostgreSQL | Neon.tech | Singapore | $0 |
+| Redis | Upstash | Singapore | $0 |
+| **Total** | | | **$0/month** |
 
 *صُنع بعناية للويب العربي*
 *Built with care for the Arabic web.*
