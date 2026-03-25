@@ -62,9 +62,6 @@ importers:
       ioredis:
         specifier: ^5.4.0
         version: 5.10.0
-      playwright:
-        specifier: ^1.44.0
-        version: 1.58.2
       reflect-metadata:
         specifier: ^0.2.0
         version: 0.2.2
@@ -87,6 +84,9 @@ importers:
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.37
+      playwright:
+        specifier: ^1.44.0
+        version: 1.58.2
       prisma:
         specifier: ^5.14.0
         version: 5.22.0
