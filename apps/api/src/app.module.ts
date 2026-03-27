@@ -9,6 +9,8 @@ import { PrismaModule } from './modules/prisma/prisma.module';
 import { ScanModule } from './modules/scan/scan.module';
 import { UserModule } from './modules/user/user.module';
 import { BillingModule } from './modules/billing/billing.module';
+import { ReportModule } from './modules/report/report.module';
+import { FixpackModule } from './modules/fixpack/fixpack.module';
 import { AppController } from './app.controller';
 import { ClerkAuthGuard } from './common/guards/clerk-auth.guard';
 
@@ -47,6 +49,8 @@ import { ClerkAuthGuard } from './common/guards/clerk-auth.guard';
     ScanModule,
     UserModule,
     BillingModule,
+    ReportModule,
+    FixpackModule,
   ],
   providers: [
     {
