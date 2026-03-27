@@ -3,19 +3,9 @@
 import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs';
 
 export function AuthButtons() {
-  let isSignedIn = false;
-  let isLoaded = false;
+  const { isSignedIn, isLoaded } = useUser();
 
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Clerk hooks throw if not in ClerkProvider
-    const user = useUser();
-    isSignedIn = user.isSignedIn ?? false;
-    isLoaded = user.isLoaded;
-  } catch {
-    // Clerk not configured — show nothing
-    return null;
-  }
-
+  // Not loaded yet or Clerk not configured — show nothing
   if (!isLoaded) return null;
 
   if (isSignedIn) {

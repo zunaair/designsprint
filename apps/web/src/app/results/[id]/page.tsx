@@ -633,19 +633,14 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
     return () => clearInterval(t);
   }, []);
 
-  // Get Clerk auth token if available
-  let getToken: (() => Promise<string | null>) | undefined;
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Clerk may not be configured
-    const auth = useAuth();
-    getToken = auth.getToken;
-  } catch { /* Clerk not configured */ }
+  // Get Clerk auth token — always called unconditionally (ClerkProvider always wraps)
+  const { getToken } = useAuth();
 
   useEffect(() => {
     let cancelled = false;
     async function poll() {
       try {
-        const token = getToken ? await getToken() : null;
+        const token = await getToken();
         const headers: Record<string, string> = {};
         if (token) headers['Authorization'] = `Bearer ${token}`;
         const res  = await fetch(`${API_URL}/api/scans/${id}`, { headers });
