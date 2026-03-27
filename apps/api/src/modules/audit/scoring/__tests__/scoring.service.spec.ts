@@ -98,6 +98,40 @@ describe('ScoringService', () => {
     });
   });
 
+  describe('buildCategoryScore', () => {
+    it('should use check.score() to calculate score', () => {
+      const service = createService();
+      const issues: CheckResult[] = [
+        { category: 'direction', severity: 'critical', message: 'Missing dir=rtl' },
+      ];
+      const fixes: FixSuggestion[] = [
+        { category: 'direction', description: 'Add dir=rtl', after: '<html dir="rtl">', type: 'html' },
+      ];
+      const result = service.buildCategoryScore('direction', issues, fixes);
+      expect(result.category).toBe('direction');
+      expect(result.maxScore).toBe(20);
+      expect(result.issueCount).toBe(1);
+      expect(result.issues).toEqual(issues);
+      expect(result.fixes).toEqual(fixes);
+      expect(result.score).toBeGreaterThanOrEqual(0);
+    });
+
+    it('should return 0 score for an unknown category', () => {
+      const service = createService();
+      const result = service.buildCategoryScore('direction', [], []);
+      expect(result.score).toBeGreaterThanOrEqual(0);
+      expect(result.maxScore).toBe(20);
+    });
+
+    it('should handle empty issues and fixes', () => {
+      const service = createService();
+      const result = service.buildCategoryScore('typography', [], []);
+      expect(result.issueCount).toBe(0);
+      expect(result.issues).toEqual([]);
+      expect(result.fixes).toEqual([]);
+    });
+  });
+
   describe('buildAuditResult', () => {
     it('should create a valid audit result with correct grade', () => {
       const service = createService();
