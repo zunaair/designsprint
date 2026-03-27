@@ -658,7 +658,7 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
     }
     void poll();
     return () => { cancelled = true; };
-  }, [id]);
+  }, [id, getToken]);
 
   const statusStyle = (): React.CSSProperties => {
     if (scan?.status === 'completed') return { color: '#4ade80', background: 'rgba(74,222,128,0.1)', border: '1px solid rgba(74,222,128,0.25)' };
