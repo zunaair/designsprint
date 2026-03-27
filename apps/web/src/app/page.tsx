@@ -106,7 +106,7 @@ function MockPreview() {
         </div>
         <span style={{
           fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 999,
-          background: 'rgba(99,102,241,0.15)', color: '#a5b4fc', border: '1px solid rgba(99,102,241,0.25)',
+          background: 'rgba(199,5,45,0.15)', color: '#E6BCC5', border: '1px solid rgba(199,5,45,0.25)',
         }}>Sample</span>
       </div>
 
@@ -216,8 +216,8 @@ function StepCard({ step, index }: { step: typeof STEPS[0]; index: number }) {
       {/* Icon */}
       <div style={{
         width: 48, height: 48, borderRadius: 14, marginBottom: 16,
-        background: 'linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.1))',
-        border: '1px solid rgba(99,102,241,0.2)',
+        background: 'linear-gradient(135deg, rgba(199,5,45,0.15), rgba(155,4,35,0.1))',
+        border: '1px solid rgba(199,5,45,0.2)',
         display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22,
       }}>{step.icon}</div>
 
@@ -267,10 +267,10 @@ export default function HomePage() {
         {/* LEFT — text + form */}
         <div>
           {/* Badge */}
-          <div className="enter-up d-0 hero-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24, padding: '6px 14px', borderRadius: 999, background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.26)', color: '#a5b4fc', fontSize: 12, fontWeight: 600 }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#818cf8', animation: 'pulse 2s ease infinite' }} />
+          <div className="enter-up d-0 hero-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24, padding: '6px 14px', borderRadius: 999, background: 'rgba(199,5,45,0.1)', border: '1px solid rgba(199,5,45,0.26)', color: '#E6BCC5', fontSize: 12, fontWeight: 600 }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#E6BCC5', animation: 'pulse 2s ease infinite' }} />
             Free Arabic UX Audit — No signup required
-            <span style={{ fontSize: 10, fontWeight: 700, padding: '1px 6px', borderRadius: 999, background: 'rgba(99,102,241,0.2)', color: '#c7d2fe', border: '1px solid rgba(99,102,241,0.28)' }}>Beta</span>
+            <span style={{ fontSize: 10, fontWeight: 700, padding: '1px 6px', borderRadius: 999, background: 'rgba(199,5,45,0.2)', color: '#E6BCC5', border: '1px solid rgba(199,5,45,0.28)' }}>Beta</span>
           </div>
 
           {/* Heading */}
@@ -349,13 +349,13 @@ export default function HomePage() {
                     return (
                       <button key={v} type="button" onClick={() => setViewport(v)} style={{
                         position: 'relative', padding: '11px 6px', borderRadius: 14, textAlign: 'center',
-                        border: `1.5px solid ${active ? 'rgba(99,102,241,0.5)' : 'rgba(255,255,255,0.08)'}`,
-                        background: active ? 'linear-gradient(135deg,rgba(99,102,241,0.17),rgba(139,92,246,0.11))' : 'rgba(255,255,255,0.03)',
-                        boxShadow: active ? '0 0 0 1px rgba(99,102,241,0.22), 0 4px 14px rgba(99,102,241,0.12)' : 'none',
+                        border: `1.5px solid ${active ? 'rgba(199,5,45,0.5)' : 'rgba(255,255,255,0.08)'}`,
+                        background: active ? 'linear-gradient(135deg,rgba(199,5,45,0.17),rgba(155,4,35,0.11))' : 'rgba(255,255,255,0.03)',
+                        boxShadow: active ? '0 0 0 1px rgba(199,5,45,0.22), 0 4px 14px rgba(199,5,45,0.12)' : 'none',
                         cursor: 'pointer', transition: 'all 0.18s',
                         color: active ? '#f1f5f9' : '#64748b',
                       }}>
-                        {active && <span style={{ position: 'absolute', top: 6, right: 6, width: 6, height: 6, borderRadius: '50%', background: '#818cf8' }} />}
+                        {active && <span style={{ position: 'absolute', top: 6, right: 6, width: 6, height: 6, borderRadius: '50%', background: '#E6BCC5' }} />}
                         <div style={{ fontSize: 18, marginBottom: 3 }}>{icon}</div>
                         <div style={{ fontSize: 11, fontWeight: 700 }}>{label}</div>
                         <div style={{ fontSize: 10, color: active ? '#94a3b8' : '#334155', marginTop: 1 }}>{sub}</div>
@@ -395,11 +395,11 @@ export default function HomePage() {
         <div className="enter-up" style={{ textAlign: 'center', marginBottom: 48 }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14,
-            fontSize: 11, fontWeight: 700, color: '#6366f1', textTransform: 'uppercase', letterSpacing: '0.1em',
+            fontSize: 11, fontWeight: 700, color: '#C7052D', textTransform: 'uppercase', letterSpacing: '0.1em',
           }}>
-            <span style={{ width: 16, height: 1, background: '#6366f1', display: 'inline-block' }} />
+            <span style={{ width: 16, height: 1, background: '#C7052D', display: 'inline-block' }} />
             How it works
-            <span style={{ width: 16, height: 1, background: '#6366f1', display: 'inline-block' }} />
+            <span style={{ width: 16, height: 1, background: '#C7052D', display: 'inline-block' }} />
           </div>
           <h2 className="section-h2" style={{ fontSize: 32, fontWeight: 900, color: '#f8fafc', letterSpacing: '-0.5px', marginBottom: 8 }}>Scan in 3 steps</h2>
           <p style={{ fontSize: 15, color: '#64748b', maxWidth: 420, margin: '0 auto' }}>
@@ -417,11 +417,11 @@ export default function HomePage() {
         <div className="enter-up" style={{ textAlign: 'center', marginBottom: 40 }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14,
-            fontSize: 11, fontWeight: 700, color: '#6366f1', textTransform: 'uppercase', letterSpacing: '0.1em',
+            fontSize: 11, fontWeight: 700, color: '#C7052D', textTransform: 'uppercase', letterSpacing: '0.1em',
           }}>
-            <span style={{ width: 16, height: 1, background: '#6366f1', display: 'inline-block' }} />
+            <span style={{ width: 16, height: 1, background: '#C7052D', display: 'inline-block' }} />
             Audit categories
-            <span style={{ width: 16, height: 1, background: '#6366f1', display: 'inline-block' }} />
+            <span style={{ width: 16, height: 1, background: '#C7052D', display: 'inline-block' }} />
           </div>
           <h2 className="section-h2" style={{ fontSize: 32, fontWeight: 900, color: '#f8fafc', letterSpacing: '-0.5px', marginBottom: 8 }}>8 checks, 100 points</h2>
           <p style={{ fontSize: 15, color: '#64748b', maxWidth: 460, margin: '0 auto' }}>
@@ -434,13 +434,13 @@ export default function HomePage() {
             <div key={cat.key} className={`glass-card enter-up d-${Math.min(i, 8)}`} style={{ padding: '20px', cursor: 'default' }}>
               <div style={{
                 width: 40, height: 40, borderRadius: 12, marginBottom: 14,
-                background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.18)',
+                background: 'rgba(199,5,45,0.1)', border: '1px solid rgba(199,5,45,0.18)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20,
               }}>{cat.icon}</div>
               <div style={{ fontSize: 14, fontWeight: 700, color: '#f1f5f9', marginBottom: 7 }}>{cat.label}</div>
               <div style={{ marginBottom: 10 }}>
                 {cat.pts > 0
-                  ? <span style={{ fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 999, color: '#a5b4fc', background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.22)' }}>{cat.pts} pts</span>
+                  ? <span style={{ fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 999, color: '#E6BCC5', background: 'rgba(199,5,45,0.12)', border: '1px solid rgba(199,5,45,0.22)' }}>{cat.pts} pts</span>
                   : <span style={{ fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 999, color: '#fb923c', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.22)' }}>Penalty</span>
                 }
               </div>
@@ -471,11 +471,11 @@ export default function HomePage() {
         <div className="enter-up" style={{ textAlign: 'center', marginBottom: 48 }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14,
-            fontSize: 11, fontWeight: 700, color: '#6366f1', textTransform: 'uppercase', letterSpacing: '0.1em',
+            fontSize: 11, fontWeight: 700, color: '#C7052D', textTransform: 'uppercase', letterSpacing: '0.1em',
           }}>
-            <span style={{ width: 16, height: 1, background: '#6366f1', display: 'inline-block' }} />
+            <span style={{ width: 16, height: 1, background: '#C7052D', display: 'inline-block' }} />
             Pricing
-            <span style={{ width: 16, height: 1, background: '#6366f1', display: 'inline-block' }} />
+            <span style={{ width: 16, height: 1, background: '#C7052D', display: 'inline-block' }} />
           </div>
           <h2 style={{ fontSize: 32, fontWeight: 900, color: '#f8fafc', letterSpacing: '-0.5px', marginBottom: 8 }}>Simple, transparent pricing</h2>
           <p style={{ fontSize: 15, color: '#64748b', maxWidth: 420, margin: '0 auto' }}>
@@ -506,18 +506,18 @@ export default function HomePage() {
 
           {/* Starter */}
           <div className="enter-up d-1" style={{
-            background: 'linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.05))',
-            border: '1.5px solid rgba(99,102,241,0.35)',
+            background: 'linear-gradient(135deg, rgba(199,5,45,0.08), rgba(155,4,35,0.05))',
+            border: '1.5px solid rgba(199,5,45,0.35)',
             borderRadius: 20, padding: '32px 28px', position: 'relative',
-            boxShadow: '0 0 40px rgba(99,102,241,0.1)',
+            boxShadow: '0 0 40px rgba(199,5,45,0.1)',
           }}>
-            <span style={{ position: 'absolute', top: -10, right: 20, fontSize: 10, fontWeight: 800, padding: '4px 12px', borderRadius: 999, background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', color: '#fff', letterSpacing: '0.05em' }}>POPULAR</span>
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#a5b4fc', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>Starter</div>
+            <span style={{ position: 'absolute', top: -10, right: 20, fontSize: 10, fontWeight: 800, padding: '4px 12px', borderRadius: 999, background: 'linear-gradient(135deg, #C7052D, #9B0423)', color: '#fff', letterSpacing: '0.05em' }}>POPULAR</span>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#E6BCC5', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>Starter</div>
             <div style={{ fontSize: 42, fontWeight: 900, color: '#f8fafc', marginBottom: 4 }}>$49</div>
             <div style={{ fontSize: 13, color: '#475569', marginBottom: 24 }}>one-time · single page</div>
             {['Everything in Free', 'Full issue details', 'Fix code snippets', 'PDF report download', 'AI explanations (AR + EN)', 'Re-scan after fix'].map(f => (
-              <div key={f} style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10, fontSize: 13, color: '#c7d2fe' }}>
-                <span style={{ color: '#818cf8' }}>✓</span> {f}
+              <div key={f} style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 10, fontSize: 13, color: '#E6BCC5' }}>
+                <span style={{ color: '#E6BCC5' }}>✓</span> {f}
               </div>
             ))}
             <button className="btn-primary" style={{ width: '100%', marginTop: 20 }}>Get started</button>
@@ -551,10 +551,10 @@ export default function HomePage() {
       {/* ═══ CTA ══════════════════════════════════════════════ */}
       <section style={{ paddingBottom: 96, textAlign: 'center' }}>
         <div className="enter-up" style={{
-          background: 'linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.06))',
-          border: '1px solid rgba(99,102,241,0.25)',
+          background: 'linear-gradient(135deg, rgba(199,5,45,0.1), rgba(155,4,35,0.06))',
+          border: '1px solid rgba(199,5,45,0.25)',
           borderRadius: 28, padding: '56px 32px',
-          boxShadow: '0 0 60px rgba(99,102,241,0.08)',
+          boxShadow: '0 0 60px rgba(199,5,45,0.08)',
         }}>
           <h2 style={{ fontSize: 32, fontWeight: 900, color: '#f8fafc', letterSpacing: '-0.5px', marginBottom: 12 }}>
             Stop losing Arabic customers

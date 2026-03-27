@@ -110,6 +110,8 @@ export class ScanService {
       id: scan.id,
       url: scan.url,
       status: scan.status.toLowerCase() as IScanResult['status'],
+      tier: scan.tier.toLowerCase() as IScanResult['tier'],
+      email: scan.email,
       ...(scan.desktop_result != null && { desktop: scan.desktop_result as unknown as IAuditResult }),
       ...(scan.mobile_result != null && { mobile: scan.mobile_result as unknown as IAuditResult }),
       ...(scan.error != null && { error: scan.error }),

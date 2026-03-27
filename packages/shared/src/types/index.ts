@@ -45,10 +45,15 @@ export interface IAuditResult {
   categories: CategoryScore[];
 }
 
+export type TierLevel = 'free' | 'starter' | 'pro';
+
 export interface IScanResult {
   id: string;
   url: string;
   status: 'pending' | 'running' | 'completed' | 'failed';
+  tier: TierLevel;
+  email: string;
+  userId?: string;
   desktop?: IAuditResult;
   mobile?: IAuditResult;
   error?: string;

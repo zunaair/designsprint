@@ -1,4 +1,4 @@
-import type { Page } from 'playwright';
+
 import type { CheckResult, FixSuggestion } from '@designsprint/shared';
 import { BaseCheck } from './base.check';
 import arabicFontsData from '../../../../../../packages/audit-rules/arabic-fonts.json';
@@ -19,7 +19,7 @@ export class FontFallbackCheck extends BaseCheck {
   readonly category = 'font-fallback' as const;
   private readonly arabicFonts: ArabicFontsData = arabicFontsData as ArabicFontsData;
 
-  async run(page: Page): Promise<CheckResult[]> {
+  async run(input: unknown): Promise<CheckResult[]> {
     const results: CheckResult[] = [];
 
     const issues = await page.evaluate(async (fontsJson: string) => {

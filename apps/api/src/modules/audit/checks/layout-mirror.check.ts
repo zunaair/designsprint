@@ -1,4 +1,4 @@
-import type { Page } from 'playwright';
+
 import type { CheckResult, FixSuggestion } from '@designsprint/shared';
 import { BaseCheck } from './base.check';
 import iconMirrorRules from '../../../../../../packages/audit-rules/icon-mirror-rules.json';
@@ -23,7 +23,7 @@ export class LayoutMirrorCheck extends BaseCheck {
   readonly category = 'layout-mirror' as const;
   private readonly mirrorRules: IconMirrorRules = iconMirrorRules as IconMirrorRules;
 
-  async run(page: Page): Promise<CheckResult[]> {
+  async run(input: unknown): Promise<CheckResult[]> {
     const results: CheckResult[] = [];
 
     const issues = await page.evaluate((rulesJson: string) => {

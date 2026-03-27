@@ -5,16 +5,19 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
+        sans: ['Manrope', 'system-ui', 'sans-serif'],
         arabic: ['Noto Sans Arabic', 'Tahoma', 'Arial', 'sans-serif'],
       },
       colors: {
         brand: {
-          50:  '#eef2ff',
-          100: '#e0e7ff',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
+          50:  '#fef2f4',
+          100: '#fde6ea',
+          200: '#E6BCC5',
+          400: '#e03050',
+          500: '#C7052D',
+          600: '#9B0423',
+          700: '#7a031b',
+          dark: '#1A1A2E',
         },
       },
       borderOpacity: {

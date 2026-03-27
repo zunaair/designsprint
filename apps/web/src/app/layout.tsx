@@ -16,20 +16,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {/* ── Ambient background ───────────────────────────── */}
         <div aria-hidden style={{ position: 'fixed', inset: 0, zIndex: -1, overflow: 'hidden', pointerEvents: 'none' }}>
-          {/* Orbs */}
+          {/* Orbs — brand red tones */}
           <div className="orb" style={{
             width: 700, height: 700, top: -200, left: -200,
-            background: 'radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(199,5,45,0.15) 0%, transparent 70%)',
             animationDuration: '16s',
           }} />
           <div className="orb" style={{
             width: 560, height: 560, top: '40%', right: -180,
-            background: 'radial-gradient(circle, rgba(139,92,246,0.14) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(155,4,35,0.12) 0%, transparent 70%)',
             animationDuration: '20s', animationDelay: '-5s',
           }} />
           <div className="orb" style={{
             width: 440, height: 440, bottom: -160, left: '35%',
-            background: 'radial-gradient(circle, rgba(6,182,212,0.1) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(230,188,197,0.08) 0%, transparent 70%)',
             animationDuration: '18s', animationDelay: '-10s',
           }} />
           {/* Dot grid */}
@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* ── Navigation ───────────────────────────────────── */}
         <header style={{
           position: 'sticky', top: 0, zIndex: 50,
-          background: 'rgba(8,8,15,0.8)',
+          background: 'rgba(26,26,46,0.85)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           borderBottom: '1px solid rgba(255,255,255,0.06)',
@@ -54,17 +54,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
               <div style={{
                 width: 32, height: 32, borderRadius: 10,
-                background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                background: 'linear-gradient(135deg, #C7052D, #9B0423)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 12, fontWeight: 800, color: '#fff', letterSpacing: '-0.5px',
-                boxShadow: '0 2px 8px rgba(99,102,241,0.4)',
+                boxShadow: '0 2px 8px rgba(199,5,45,0.4)',
                 flexShrink: 0,
               }}>DS</div>
               <span style={{ fontSize: 15, fontWeight: 700, color: '#f8fafc', letterSpacing: '-0.3px' }}>DesignSprint</span>
               <span style={{
                 fontSize: 10, fontWeight: 700, padding: '2px 6px',
-                background: 'rgba(99,102,241,0.15)', border: '1px solid rgba(99,102,241,0.3)',
-                color: '#a5b4fc', borderRadius: 6, letterSpacing: '0.05em',
+                background: 'rgba(199,5,45,0.15)', border: '1px solid rgba(199,5,45,0.3)',
+                color: '#E6BCC5', borderRadius: 6, letterSpacing: '0.05em',
               }}>™</span>
             </a>
 
@@ -103,13 +103,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <div style={{
                 width: 24, height: 24, borderRadius: 7,
-                background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                background: 'linear-gradient(135deg, #C7052D, #9B0423)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 10, fontWeight: 800, color: '#fff',
               }}>DS</div>
               <span style={{ fontSize: 13, color: '#475569', fontWeight: 600 }}>DesignSprint™</span>
             </div>
-            <p style={{ fontSize: 12, color: '#334155' }}>Arabic UX Audit · Playwright-powered · Free tier: 3 scans / day</p>
+            <p style={{ fontSize: 12, color: '#334155' }}>Arabic UX Audit · Free tier: 3 scans / day</p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#334155' }}>
               <span className="arabic">صُنع بعناية للويب العربي</span>
             </div>

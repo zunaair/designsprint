@@ -34,7 +34,7 @@
 
 ## 1. Product Overview
 
-**DesignSprint™** is a SaaS product that automatically audits websites for Arabic UX quality. A user enters a website URL, the system scans it using a headless browser (Playwright), runs 8 categories of Arabic-specific checks against the rendered DOM, and produces a scored report (out of 100) with prioritised fix recommendations.
+**DesignSprint™** is a SaaS product that automatically audits websites for Arabic UX quality. A user enters a website URL, the system fetches the page HTML and runs 8 categories of Arabic-specific static analysis checks, producing a scored report (out of 100) with prioritised fix recommendations. (Note: The crawler was originally designed to use Playwright headless browser but was migrated to lightweight HTTP fetch + regex analysis for free-tier hosting compatibility.)
 
 **One-liner:** Enter a URL → Get a 100-point Arabic UX score in under 60 seconds.
 
@@ -64,7 +64,7 @@ Arabic-speaking users abandon websites because of:
 ## 3. The Idea & Vision
 
 ### Origin
-Pixelette Technologies, a GCC-focused product studio, noticed that virtually every website they audited for Arabic clients had the same categories of RTL/Arabic UX bugs. The manual audit process took 2-3 weeks per site. The idea: automate the entire audit using a headless browser that actually renders the page (like a real user) and checks everything programmatically.
+Pixelette Technologies, a GCC-focused product studio, noticed that virtually every website they audited for Arabic clients had the same categories of RTL/Arabic UX bugs. The manual audit process took 2-3 weeks per site. The idea: automate the entire audit by fetching the page and running programmatic checks against the HTML.
 
 ### Vision
 - **Phase 1 (MVP):** Single-page scanner with 8 automated checks. Free tier with email gate for lead capture. Starter tier ($49) for full reports.
@@ -72,7 +72,7 @@ Pixelette Technologies, a GCC-focused product studio, noticed that virtually eve
 - **Phase 3 (Enterprise):** API access, CI/CD plugins, AI-powered fix descriptions (Claude API), browser extension, expand to Hebrew/Urdu/Farsi, government tenders.
 
 ### What Makes It Unique
-1. **Uses a real browser** — Not just static HTML analysis. Playwright renders the page with JavaScript, loads fonts, applies CSS, then inspects the computed DOM.
+1. **Static HTML analysis** — Fetches page HTML via HTTP and runs regex-based checks across all 8 audit categories. (Originally designed for Playwright headless browser; migrated to static analysis for free-tier hosting — see Bug 19.)
 2. **Arabic-specific** — Every check is designed for Arabic/RTL. Not a generic accessibility tool with an RTL checkbox.
 3. **Generates fix code** — Doesn't just find problems, generates the exact CSS/HTML code to fix them.
 4. **Dual viewport** — Scans both desktop (1920×1080) and mobile (375×812) because 78% of GCC traffic is mobile.
@@ -148,8 +148,8 @@ Pixelette Technologies, a GCC-focused product studio, noticed that virtually eve
 │                                                               │
 │  ┌─────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────┐  │
 │  │  Scan   │  │  Audit   │  │ Crawler  │  │   Report     │  │
-│  │ Module  │  │  Engine  │  │(Playwright│  │  (PDF Gen)   │  │
-│  │         │  │ 8 Checks │  │  headless)│  │              │  │
+│  │ Module  │  │  Engine  │  │(HTTP Fetch│  │  (PDF Gen)   │  │
+│  │         │  │ 8 Checks │  │ + Static) │  │              │  │
 │  └────┬────┘  └────┬─────┘  └────┬─────┘  └──────────────┘  │
 │       │            │              │                            │
 │       ▼            ▼              ▼                            │
@@ -252,7 +252,7 @@ Total:                        100 pts
 
 | Layer | Technology | Why This Choice |
 |-------|-----------|----------------|
-| **Crawl Engine** | Playwright | Renders JS-heavy SPAs. Multi-browser (Chromium + Firefox + WebKit). Safari renders Arabic differently — must test cross-browser. Microsoft-backed, auto-wait. |
+| **Crawl Engine** | HTTP Fetch + Static Analysis | Lightweight crawler using `fetch()` + regex-based checks. Originally Playwright but migrated for free-tier hosting (see Bug 19). Playwright remains the target for Phase 2 when hosting supports Chromium. |
 | **Backend API** | NestJS 10 + TypeScript | Modular architecture with dependency injection. Strong TypeScript support. Team expertise. |
 | **Database** | PostgreSQL + Prisma ORM | JSON columns (`jsonb`) for flexible audit results. Prisma for type-safe queries. |
 | **Job Queue** | BullMQ (Redis-backed) | Async scan jobs. Rate limiting. Retry logic. Job progress tracking. |
@@ -310,7 +310,7 @@ designsprint/
 │       │       │   └── scan.processor.ts    # BullMQ job processor
 │       │       ├── audit/             # Audit engine
 │       │       │   └── checks/        # 8 check modules (see Section 7)
-│       │       ├── crawler/           # Playwright browser management
+│       │       ├── crawler/           # HTTP fetch + static HTML analysis
 │       │       └── prisma/            # Database service with retry logic
 │       ├── prisma/
 │       │   └── schema.prisma          # Database schema (Scan, User models)
@@ -736,7 +736,7 @@ node dist/main
 - [ ] Pro tier ($199/month) with recurring billing (Paddle)
 - [ ] Full-site crawl (100 pages) via BullMQ queue
 - [ ] Competitor comparison (scan 3 competitor URLs side-by-side)
-- [ ] PDF report generation (Playwright HTML → PDF)
+- [ ] PDF report generation (pdfkit or @react-pdf/renderer)
 - [ ] Fix Packs (auto-generated CSS/HTML patches)
 - [ ] Clerk authentication + user dashboard
 - [ ] Monthly re-scan with email notifications
@@ -759,7 +759,7 @@ node dist/main
 
 | # | Decision | Rationale |
 |---|----------|-----------|
-| 1 | **Playwright over Puppeteer** | Multi-browser support (Chromium + Firefox + WebKit). Safari renders Arabic differently. |
+| 1 | **HTTP static analysis (was Playwright)** | Migrated from Playwright to lightweight HTTP fetch + regex for free-tier hosting. Playwright is the target for Phase 2 when hosting supports Chromium. |
 | 2 | **AWS Bahrain (me-south-1) for production** | GCC latency. Saudi PDPL data sovereignty compliance. |
 | 3 | **NestJS over Express** | Module system, DI, validation built-in. Matches product complexity. |
 | 4 | **Prisma over raw SQL** | Type-safe queries. JSON columns for flexible audit results. |

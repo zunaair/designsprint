@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,18 +6,18 @@
 
 /* ── Design tokens ───────────────────────────────────────── */
 :root {
-  --brand:        #6366f1;
-  --brand-2:      #8b5cf6;
-  --bg:           #08080f;
-  --surface:      rgba(255,255,255,0.035);
-  --surface-2:    rgba(255,255,255,0.055);
+  --brand:        #C7052D;
+  --brand-2:      #E6BCC5;
+  --bg:           #1A1A2E;
+  --surface:      rgba(255,255,255,0.04);
+  --surface-2:    rgba(255,255,255,0.065);
   --border:       rgba(255,255,255,0.08);
   --border-hover: rgba(255,255,255,0.14);
   --text-1:       #f8fafc;
   --text-2:       #94a3b8;
   --text-3:       #64748b;
   --text-4:       #334155;
-  --font-sans:    'Inter', system-ui, sans-serif;
+  --font-sans:    'Manrope', system-ui, sans-serif;
   --font-arabic:  'Noto Sans Arabic', Tahoma, Arial, sans-serif;
   --r-sm:   8px;
   --r-md:  12px;
@@ -53,7 +53,7 @@ body {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #c7d2fe 0%, #818cf8 35%, #a78bfa 65%, #c084fc 100%);
+  background: linear-gradient(135deg, #E6BCC5 0%, #C7052D 35%, #9B0423 65%, #E6BCC5 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -100,8 +100,8 @@ body {
 .ds-input:hover  { border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.055); }
 .ds-input:focus  {
   border-color: var(--brand);
-  background: rgba(99,102,241,0.07);
-  box-shadow: 0 0 0 3px rgba(99,102,241,0.18);
+  background: rgba(199,5,45,0.07);
+  box-shadow: 0 0 0 3px rgba(199,5,45,0.18);
 }
 .ds-input-icon { padding-left: 44px; }
 
@@ -115,7 +115,7 @@ body {
   width: 100%;
   height: 52px;
   border-radius: var(--r-md);
-  background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, #C7052D 0%, #9B0423 100%);
   color: #fff;
   font-size: 15px;
   font-weight: 700;
@@ -124,7 +124,7 @@ body {
   cursor: pointer;
   overflow: hidden;
   transition: transform 0.18s, box-shadow 0.18s;
-  box-shadow: 0 4px 20px rgba(99,102,241,0.35), 0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15);
+  box-shadow: 0 4px 20px rgba(199,5,45,0.35), 0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15);
 }
 .btn-primary::after {
   content: '';
@@ -133,7 +133,7 @@ body {
   background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, transparent 100%);
   border-radius: inherit;
 }
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 28px rgba(99,102,241,0.5), 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 28px rgba(199,5,45,0.5), 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15); }
 .btn-primary:active { transform: translateY(0); }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
 
@@ -165,9 +165,9 @@ body {
 .tab-item:hover:not(.tab-active) { color: var(--text-2); background: rgba(255,255,255,0.04); }
 .tab-item.tab-active {
   color: #fff;
-  background: linear-gradient(135deg, rgba(99,102,241,0.22), rgba(139,92,246,0.16));
-  border-color: rgba(99,102,241,0.38);
-  box-shadow: 0 2px 12px rgba(99,102,241,0.18), inset 0 1px 0 rgba(255,255,255,0.08);
+  background: linear-gradient(135deg, rgba(199,5,45,0.22), rgba(155,4,35,0.16));
+  border-color: rgba(199,5,45,0.38);
+  box-shadow: 0 2px 12px rgba(199,5,45,0.18), inset 0 1px 0 rgba(255,255,255,0.08);
 }
 
 /* ── Badge / pill ────────────────────────────────────────── */
@@ -185,7 +185,7 @@ body {
 .sev-critical { color: #fca5a5; background: rgba(239,68,68,0.1);  border-color: rgba(239,68,68,0.28); }
 .sev-major    { color: #fdba74; background: rgba(249,115,22,0.1); border-color: rgba(249,115,22,0.28); }
 .sev-minor    { color: #fde68a; background: rgba(234,179,8,0.1);  border-color: rgba(234,179,8,0.28); }
-.sev-info     { color: #a5b4fc; background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.28); }
+.sev-info     { color: #E6BCC5; background: rgba(199,5,45,0.1); border-color: rgba(199,5,45,0.28); }
 
 /* ── Code diff blocks ────────────────────────────────────── */
 .diff-remove {

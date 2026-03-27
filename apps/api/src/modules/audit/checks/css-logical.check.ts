@@ -1,4 +1,4 @@
-import type { Page } from 'playwright';
+
 import type { CheckResult, FixSuggestion } from '@designsprint/shared';
 import { BaseCheck } from './base.check';
 import cssPhysicalProperties from '../../../../../../packages/audit-rules/css-physical-properties.json';
@@ -23,7 +23,7 @@ export class CssLogicalCheck extends BaseCheck {
     cssPhysicalProperties as { properties: PhysicalPropertyRule[] }
   ).properties;
 
-  async run(page: Page): Promise<CheckResult[]> {
+  async run(input: unknown): Promise<CheckResult[]> {
     const results: CheckResult[] = [];
 
     // Check stylesheets for physical property usage

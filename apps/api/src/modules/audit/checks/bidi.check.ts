@@ -1,4 +1,4 @@
-import type { Page } from 'playwright';
+
 import type { CheckResult, FixSuggestion } from '@designsprint/shared';
 import { BaseCheck } from './base.check';
 
@@ -13,7 +13,7 @@ import { BaseCheck } from './base.check';
 export class BidiCheck extends BaseCheck {
   readonly category = 'bidi' as const;
 
-  async run(page: Page): Promise<CheckResult[]> {
+  async run(input: unknown): Promise<CheckResult[]> {
     const results: CheckResult[] = [];
 
     const issues = await page.evaluate(() => {

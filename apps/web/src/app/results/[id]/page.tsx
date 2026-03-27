@@ -35,7 +35,7 @@ const SEV: Record<string, { cls: string; label: string; color: string }> = {
   critical: { cls: 'sev-critical', label: 'Critical', color: '#fca5a5' },
   major:    { cls: 'sev-major',    label: 'Major',    color: '#fdba74' },
   minor:    { cls: 'sev-minor',    label: 'Minor',    color: '#fde68a' },
-  info:     { cls: 'sev-info',     label: 'Info',     color: '#a5b4fc' },
+  info:     { cls: 'sev-info',     label: 'Info',     color: '#E6BCC5' },
 };
 
 function scoreColor(pct: number) {
@@ -124,13 +124,13 @@ function PaywallBanner({ issueTotal }: { issueTotal: number }) {
     <div style={{
       margin: '28px 0',
       borderRadius: 20,
-      border: '1px solid rgba(99,102,241,0.3)',
-      background: 'linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(139,92,246,0.06) 100%)',
+      border: '1px solid rgba(199,5,45,0.3)',
+      background: 'linear-gradient(135deg, rgba(199,5,45,0.08) 0%, rgba(155,4,35,0.06) 100%)',
       overflow: 'hidden',
-      boxShadow: '0 0 40px rgba(99,102,241,0.1)',
+      boxShadow: '0 0 40px rgba(199,5,45,0.1)',
     }}>
       {/* Top strip */}
-      <div style={{ height: 3, background: 'linear-gradient(90deg, #6366f1, #8b5cf6, #c084fc)' }} />
+      <div style={{ height: 3, background: 'linear-gradient(90deg, #C7052D, #9B0423, #E6BCC5)' }} />
 
       <div style={{ padding: '28px 32px', display: 'flex', flexWrap: 'wrap', gap: 28, alignItems: 'center', justifyContent: 'space-between' }}>
         {/* Left */}
@@ -138,7 +138,7 @@ function PaywallBanner({ issueTotal }: { issueTotal: number }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
             <div style={{
               width: 40, height: 40, borderRadius: 12,
-              background: 'rgba(99,102,241,0.15)', border: '1px solid rgba(99,102,241,0.3)',
+              background: 'rgba(199,5,45,0.15)', border: '1px solid rgba(199,5,45,0.3)',
               display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20,
             }}>🔒</div>
             <div>
@@ -172,7 +172,7 @@ function PaywallBanner({ issueTotal }: { issueTotal: number }) {
         {/* Right CTA */}
         <div style={{ flex: '0 0 auto', textAlign: 'center' }}>
           <div style={{
-            fontSize: 11, fontWeight: 700, color: '#a78bfa', letterSpacing: '0.08em',
+            fontSize: 11, fontWeight: 700, color: '#E6BCC5', letterSpacing: '0.08em',
             textTransform: 'uppercase', marginBottom: 6,
           }}>Starter Plan</div>
           <div style={{ fontSize: 36, fontWeight: 900, color: '#f8fafc', lineHeight: 1 }}>
@@ -183,19 +183,19 @@ function PaywallBanner({ issueTotal }: { issueTotal: number }) {
           <button style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
             width: 200, height: 48, borderRadius: 12,
-            background: 'linear-gradient(135deg, #6366f1 0%, #7c3aed 100%)',
+            background: 'linear-gradient(135deg, #C7052D 0%, #9B0423 100%)',
             color: '#fff', fontSize: 14, fontWeight: 700,
             border: 'none', cursor: 'pointer',
-            boxShadow: '0 4px 20px rgba(99,102,241,0.4)',
+            boxShadow: '0 4px 20px rgba(199,5,45,0.4)',
             transition: 'transform 0.18s, box-shadow 0.18s',
           }}
             onMouseEnter={e => {
               (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-              (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 28px rgba(99,102,241,0.55)';
+              (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 28px rgba(199,5,45,0.55)';
             }}
             onMouseLeave={e => {
               (e.currentTarget as HTMLElement).style.transform = '';
-              (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(99,102,241,0.4)';
+              (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(199,5,45,0.4)';
             }}
           >
             Unlock Full Report →
@@ -239,8 +239,8 @@ function LockedOverlay({ count }: { count: number }) {
       }}>
         <div style={{
           display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, fontWeight: 700,
-          color: '#a5b4fc', background: 'rgba(99,102,241,0.15)',
-          border: '1px solid rgba(99,102,241,0.3)',
+          color: '#E6BCC5', background: 'rgba(199,5,45,0.15)',
+          border: '1px solid rgba(199,5,45,0.3)',
           padding: '5px 12px', borderRadius: 999,
         }}>
           🔒 {count} issue{count !== 1 ? 's' : ''} hidden — unlock to view
@@ -412,7 +412,7 @@ function CategoryCard({ cat, delay, isPro }: { cat: CategoryScore; delay: number
           }}>
             <span style={{ fontSize: 13 }}>💡</span>
             <span style={{ fontSize: 12, color: '#334155' }}>Fix suggestions available</span>
-            <span style={{ marginLeft: 'auto', fontSize: 11, fontWeight: 700, color: '#6366f1', background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.25)', padding: '3px 8px', borderRadius: 6 }}>
+            <span style={{ marginLeft: 'auto', fontSize: 11, fontWeight: 700, color: '#C7052D', background: 'rgba(199,5,45,0.1)', border: '1px solid rgba(199,5,45,0.25)', padding: '3px 8px', borderRadius: 6 }}>
               🔒 Pro
             </span>
           </div>
@@ -560,8 +560,8 @@ function RunningView({ elapsed }: { elapsed: number }) {
     <div style={{ maxWidth: 480, margin: '0 auto', textAlign: 'center' }}>
       {/* Spinner */}
       <div style={{ position: 'relative', width: 72, height: 72, margin: '0 auto 24px' }}>
-        <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '3px solid rgba(99,102,241,0.15)' }} />
-        <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '3px solid transparent', borderTopColor: '#6366f1', animation: 'spin 0.85s linear infinite' }} />
+        <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '3px solid rgba(199,5,45,0.15)' }} />
+        <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '3px solid transparent', borderTopColor: '#C7052D', animation: 'spin 0.85s linear infinite' }} />
         <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26 }}>🔍</div>
       </div>
 
@@ -572,8 +572,8 @@ function RunningView({ elapsed }: { elapsed: number }) {
       <div className="progress-track" style={{ marginBottom: 28, height: 6 }}>
         <div className="progress-fill" style={{
           width: `${progress}%`,
-          background: 'linear-gradient(90deg, #6366f1, #8b5cf6)',
-          boxShadow: '0 0 10px rgba(99,102,241,0.5)',
+          background: 'linear-gradient(90deg, #C7052D, #9B0423)',
+          boxShadow: '0 0 10px rgba(199,5,45,0.5)',
           transition: 'width 1s var(--ease-smooth)',
         }} />
       </div>
@@ -592,17 +592,17 @@ function RunningView({ elapsed }: { elapsed: number }) {
               <span style={{
                 width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                background: done ? 'rgba(74,222,128,0.15)' : current ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.04)',
-                border: `1px solid ${done ? 'rgba(74,222,128,0.35)' : current ? 'rgba(99,102,241,0.45)' : 'rgba(255,255,255,0.08)'}`,
+                background: done ? 'rgba(74,222,128,0.15)' : current ? 'rgba(199,5,45,0.2)' : 'rgba(255,255,255,0.04)',
+                border: `1px solid ${done ? 'rgba(74,222,128,0.35)' : current ? 'rgba(199,5,45,0.45)' : 'rgba(255,255,255,0.08)'}`,
                 fontSize: done ? 11 : 7,
-                color: done ? '#4ade80' : current ? '#818cf8' : '#334155',
+                color: done ? '#4ade80' : current ? '#E6BCC5' : '#334155',
                 transition: 'all 0.3s',
               }}>
                 {done ? '✓' : current
-                  ? <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#6366f1', animation: 'pulse 1.2s ease infinite' }} />
+                  ? <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#C7052D', animation: 'pulse 1.2s ease infinite' }} />
                   : ''}
               </span>
-              <span style={{ fontSize: 13, color: done ? '#4ade80' : current ? '#c7d2fe' : '#334155', fontWeight: current ? 600 : 400, transition: 'color 0.3s' }}>
+              <span style={{ fontSize: 13, color: done ? '#4ade80' : current ? '#E6BCC5' : '#334155', fontWeight: current ? 600 : 400, transition: 'color 0.3s' }}>
                 {s}
               </span>
             </div>
@@ -650,7 +650,7 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
   const statusStyle = (): React.CSSProperties => {
     if (scan?.status === 'completed') return { color: '#4ade80', background: 'rgba(74,222,128,0.1)', border: '1px solid rgba(74,222,128,0.25)' };
     if (scan?.status === 'failed')    return { color: '#f87171', background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.25)' };
-    return { color: '#818cf8', background: 'rgba(129,140,248,0.1)', border: '1px solid rgba(129,140,248,0.3)' };
+    return { color: '#E6BCC5', background: 'rgba(199,5,45,0.1)', border: '1px solid rgba(199,5,45,0.3)' };
   };
 
   if (err) return (
@@ -658,7 +658,7 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
       <div style={{ fontSize: 52, marginBottom: 16 }}>😞</div>
       <h2 style={{ fontSize: 20, fontWeight: 700, color: '#f8fafc', marginBottom: 8 }}>Could not load scan</h2>
       <p style={{ fontSize: 14, color: '#ef4444', marginBottom: 24 }}>{err}</p>
-      <a href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '11px 24px', borderRadius: 12, textDecoration: 'none', fontSize: 14, fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', boxShadow: '0 4px 20px rgba(99,102,241,0.4)' }}>
+      <a href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '11px 24px', borderRadius: 12, textDecoration: 'none', fontSize: 14, fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg, #C7052D, #9B0423)', boxShadow: '0 4px 20px rgba(199,5,45,0.4)' }}>
         ← Run a new scan
       </a>
     </main>
@@ -693,7 +693,7 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
               <span style={{ fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 999, display: 'flex', alignItems: 'center', gap: 6, ...statusStyle() }}>
-                {pending && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#818cf8', animation: 'pulse 1.5s ease infinite' }} />}
+                {pending && <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#E6BCC5', animation: 'pulse 1.5s ease infinite' }} />}
                 {scan.status.charAt(0).toUpperCase() + scan.status.slice(1)}
               </span>
               <code style={{ fontSize: 11, color: '#1e293b', background: 'rgba(255,255,255,0.04)', padding: '2px 8px', borderRadius: 6, border: '1px solid rgba(255,255,255,0.07)' }}>
@@ -730,7 +730,7 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
           <div style={{ fontSize: 44, marginBottom: 14 }}>💥</div>
           <p style={{ fontSize: 16, fontWeight: 700, color: '#fca5a5', marginBottom: 8 }}>Scan failed</p>
           <p style={{ fontSize: 13, color: '#64748b', marginBottom: 28 }}>{scan.error ?? 'An unexpected error occurred. The URL may be unreachable or blocked.'}</p>
-          <a href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '11px 24px', borderRadius: 12, textDecoration: 'none', fontSize: 14, fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}>
+          <a href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '11px 24px', borderRadius: 12, textDecoration: 'none', fontSize: 14, fontWeight: 700, color: '#fff', background: 'linear-gradient(135deg, #C7052D, #9B0423)' }}>
             ← Try again
           </a>
         </div>
@@ -752,8 +752,8 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
                     {s !== undefined && (
                       <span style={{
                         fontSize: 11, fontWeight: 800, padding: '2px 8px', borderRadius: 999,
-                        background: active ? 'rgba(99,102,241,0.25)' : 'rgba(255,255,255,0.06)',
-                        color: active ? '#c7d2fe' : '#475569',
+                        background: active ? 'rgba(199,5,45,0.25)' : 'rgba(255,255,255,0.06)',
+                        color: active ? '#E6BCC5' : '#475569',
                       }}>{s}</span>
                     )}
                   </button>
