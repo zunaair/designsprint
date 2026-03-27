@@ -73,8 +73,8 @@ function ScoreRing({ score, grade, size = 160 }: { score: number; grade: string;
             strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={circ}
             transform={`rotate(-90 ${cx} ${cx})`}
           />
-          <text x={cx} y={cx - 3} textAnchor="middle" fill="#f8fafc" fontSize={textSize} fontWeight="900" fontFamily="Inter,sans-serif">{score}</text>
-          <text x={cx} y={cx + (size < 140 ? 14 : 19)} textAnchor="middle" fill="#475569" fontSize={size < 140 ? 10 : 13} fontFamily="Inter,sans-serif">/100</text>
+          <text x={cx} y={cx - 3} textAnchor="middle" fill="#f8fafc" fontSize={textSize} fontWeight="900" fontFamily="Manrope,sans-serif">{score}</text>
+          <text x={cx} y={cx + (size < 140 ? 14 : 19)} textAnchor="middle" fill="#475569" fontSize={size < 140 ? 10 : 13} fontFamily="Manrope,sans-serif">/100</text>
         </svg>
       </div>
       <span style={{ fontSize: 12, fontWeight: 700, padding: '4px 14px', borderRadius: 999, color: g.color, background: g.bg, border: `1px solid ${g.bd}`, letterSpacing: '0.02em' }}>

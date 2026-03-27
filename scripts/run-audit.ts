@@ -1,21 +1,9 @@
 /**
- * CLI Audit Runner
+ * CLI Audit Runner (HTTP-based static analysis)
  * Usage: pnpm --filter api run audit -- --url "https://example.com/ar"
  *        pnpm --filter api run audit -- --url "https://example.com" --viewport both
  */
-import { chromium } from 'playwright';
-import {
-  DirectionCheck,
-  CssLogicalCheck,
-  TypographyCheck,
-  LayoutMirrorCheck,
-  MobileRtlCheck,
-  TextOverflowCheck,
-  BidiCheck,
-  FontFallbackCheck,
-} from '../apps/api/src/modules/audit/checks/index.js';
-import type { BaseCheck } from '../apps/api/src/modules/audit/checks/base.check.js';
-import { DESKTOP_VIEWPORT, MOBILE_VIEWPORT, SCORE_THRESHOLDS } from '../packages/shared/src/index.js';
+import { SCORE_THRESHOLDS } from '../packages/shared/src/index.js';
 import type { CategoryScore, CheckCategory, IAuditResult } from '../packages/shared/src/index.js';
 import scoringWeightsData from '../packages/audit-rules/scoring-weights.json' assert { type: 'json' };
 
@@ -39,18 +27,6 @@ if (!['desktop', 'mobile', 'both'].includes(viewportArg)) {
 
 const viewport = viewportArg as 'desktop' | 'mobile' | 'both';
 
-// --- Check registry ---
-const checks: BaseCheck[] = [
-  new DirectionCheck(),
-  new CssLogicalCheck(),
-  new TypographyCheck(),
-  new LayoutMirrorCheck(),
-  new MobileRtlCheck(),
-  new TextOverflowCheck(),
-  new BidiCheck(),
-  new FontFallbackCheck(),
-];
-
 interface WeightCategory {
   id: string;
   max_score: number;
@@ -58,10 +34,6 @@ interface WeightCategory {
 }
 
 const weightCategories = (scoringWeightsData as { categories: WeightCategory[] }).categories;
-
-function getMaxScore(category: CheckCategory): number {
-  return weightCategories.find((c) => c.id === category)?.max_score ?? 0;
-}
 
 function getGrade(score: number): IAuditResult['grade'] {
   if (score <= SCORE_THRESHOLDS.poor.max) return 'poor';
@@ -71,10 +43,10 @@ function getGrade(score: number): IAuditResult['grade'] {
 }
 
 const GRADE_COLORS: Record<IAuditResult['grade'], string> = {
-  poor: '\x1b[31m',        // red
-  'needs-work': '\x1b[33m', // orange/yellow
-  good: '\x1b[93m',        // bright yellow
-  excellent: '\x1b[32m',   // green
+  poor: '\x1b[31m',
+  'needs-work': '\x1b[33m',
+  good: '\x1b[93m',
+  excellent: '\x1b[32m',
 };
 const RESET = '\x1b[0m';
 const BOLD = '\x1b[1m';
@@ -87,76 +59,26 @@ const SEVERITY_ICONS: Record<string, string> = {
   info: '⚪',
 };
 
-async function runAuditForViewport(
-  url: string,
-  vp: 'desktop' | 'mobile'
-): Promise<IAuditResult> {
-  const viewportSize = vp === 'desktop' ? DESKTOP_VIEWPORT : MOBILE_VIEWPORT;
-
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({
-    viewport: viewportSize,
-    locale: 'ar-SA',
-    userAgent:
-      vp === 'mobile'
-        ? 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1'
-        : undefined,
-  });
-  const page = await context.newPage();
-
+/**
+ * Fetch HTML and run static analysis.
+ * This mirrors the logic in CrawlerService without NestJS DI.
+ */
+async function fetchHtml(url: string): Promise<string> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30000);
   try {
-    process.stdout.write(`\n${DIM}Loading ${url} [${vp}]...${RESET}`);
-    await page.goto(url, { waitUntil: 'networkidle', timeout: 30_000 });
-    await page.evaluate(() => document.fonts.ready);
-    process.stdout.write(` done\n`);
-
-    const categories: CategoryScore[] = [];
-    let totalScore = 0;
-
-    for (const check of checks) {
-      process.stdout.write(`${DIM}  Running ${check.category} check...${RESET}\r`);
-      try {
-        const results = await check.run(page);
-        const fixes = check.fixes(results);
-        const maxScore = getMaxScore(check.category as CheckCategory);
-        const score = check.score(results);
-        totalScore += score;
-        categories.push({
-          category: check.category as CheckCategory,
-          score,
-          maxScore,
-          issueCount: results.length,
-          issues: results,
-          fixes,
-        });
-      } catch (err) {
-        console.error(`\n  ⚠️  Check "${check.category}" threw an error: ${String(err)}`);
-        const maxScore = getMaxScore(check.category as CheckCategory);
-        categories.push({
-          category: check.category as CheckCategory,
-          score: 0,
-          maxScore,
-          issueCount: 0,
-          issues: [],
-          fixes: [],
-        });
-      }
-    }
-
-    process.stdout.write('                                          \r'); // Clear progress line
-
-    return {
-      url,
-      scannedAt: new Date(),
-      viewport: vp,
-      totalScore,
-      grade: getGrade(totalScore),
-      categories,
-    };
+    const res = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept-Language': 'ar,en;q=0.5',
+      },
+      signal: controller.signal,
+      redirect: 'follow',
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+    return await res.text();
   } finally {
-    await page.close();
-    await context.close();
-    await browser.close();
+    clearTimeout(timeout);
   }
 }
 
@@ -165,13 +87,9 @@ function printReport(result: IAuditResult): void {
   const gradeLabel = result.grade.toUpperCase().replace('-', ' ');
 
   console.log(`\n${'─'.repeat(60)}`);
-  console.log(
-    `${BOLD}${result.viewport.toUpperCase()} REPORT${RESET}  —  ${result.url}`
-  );
+  console.log(`${BOLD}${result.viewport.toUpperCase()} REPORT${RESET}  —  ${result.url}`);
   console.log(`${'─'.repeat(60)}`);
-  console.log(
-    `${BOLD}Total Score: ${gradeColor}${result.totalScore}/100 — ${gradeLabel}${RESET}`
-  );
+  console.log(`${BOLD}Total Score: ${gradeColor}${result.totalScore}/100 — ${gradeLabel}${RESET}`);
   console.log(`Scanned at: ${result.scannedAt.toISOString()}\n`);
 
   for (const cat of result.categories) {
@@ -180,9 +98,7 @@ function printReport(result: IAuditResult): void {
     const bar = '█'.repeat(barFilled) + '░'.repeat(20 - barFilled);
     const label = weightCategories.find((c) => c.id === cat.category)?.label ?? cat.category;
 
-    console.log(
-      `${BOLD}${label.padEnd(25)}${RESET} ${bar} ${cat.score}/${cat.maxScore} (${pct}%) — ${cat.issueCount} issue(s)`
-    );
+    console.log(`${BOLD}${label.padEnd(25)}${RESET} ${bar} ${cat.score}/${cat.maxScore} (${pct}%) — ${cat.issueCount} issue(s)`);
 
     if (cat.issues.length > 0) {
       for (const issue of cat.issues.slice(0, 3)) {
@@ -208,9 +124,7 @@ function printReport(result: IAuditResult): void {
     for (const cat of result.categories) {
       for (const fix of cat.fixes) {
         console.log(`\n${BOLD}[${fix.category}]${RESET} ${fix.description}`);
-        if (fix.before) {
-          console.log(`${DIM}Before:${RESET}\n${fix.before}`);
-        }
+        if (fix.before) console.log(`${DIM}Before:${RESET}\n${fix.before}`);
         console.log(`${DIM}After:${RESET}\n${fix.after}`);
       }
     }
@@ -219,19 +133,27 @@ function printReport(result: IAuditResult): void {
   console.log(`\n${'─'.repeat(60)}\n`);
 }
 
-// --- Main ---
 async function main(): Promise<void> {
-  console.log(`\n${BOLD}DesignSprint™ Arabic UX Audit${RESET}`);
+  console.log(`\n${BOLD}DesignSprint™ Arabic UX Audit (Static Analysis)${RESET}`);
   console.log(`URL: ${targetUrl}`);
   console.log(`Viewport: ${viewport}`);
+  console.log(`${DIM}Note: Uses HTTP fetch + regex analysis (not headless browser)${RESET}`);
 
-  const viewportsToRun: Array<'desktop' | 'mobile'> =
-    viewport === 'both' ? ['desktop', 'mobile'] : [viewport];
+  process.stdout.write(`\n${DIM}Fetching ${targetUrl}...${RESET}`);
+  const html = await fetchHtml(targetUrl);
+  process.stdout.write(` done (${html.length} bytes)\n`);
 
-  for (const vp of viewportsToRun) {
-    const result = await runAuditForViewport(targetUrl, vp);
-    printReport(result);
-  }
+  // Import CrawlerService dynamically to avoid NestJS DI issues
+  const { CrawlerService } = await import('../apps/api/src/modules/crawler/crawler.service.js');
+  const { ScoringService } = await import('../apps/api/src/modules/audit/scoring/scoring.service.js');
+
+  const scoring = new ScoringService();
+  const crawler = new CrawlerService(scoring);
+
+  const result = await crawler.auditUrl({ url: targetUrl, viewport, maxPages: 1, respectRobotsTxt: false });
+
+  if (result.desktop) printReport(result.desktop);
+  if (result.mobile) printReport(result.mobile);
 }
 
 main().catch((err) => {

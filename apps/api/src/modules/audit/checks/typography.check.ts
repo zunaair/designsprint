@@ -21,7 +21,9 @@ export class TypographyCheck extends BaseCheck {
 
   private readonly arabicFonts: ArabicFontsData = arabicFontsData as ArabicFontsData;
 
-  async run(input: unknown): Promise<CheckResult[]> {
+  async run(input: unknown) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- legacy Playwright-based check, retained for score()/fixes() logic
+    const page = input as any;
     const results: CheckResult[] = [];
 
     const issues = await page.evaluate((fontsJson: string) => {

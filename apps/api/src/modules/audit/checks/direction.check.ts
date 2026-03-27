@@ -10,7 +10,9 @@ import { BaseCheck } from './base.check';
 export class DirectionCheck extends BaseCheck {
   readonly category = 'direction' as const;
 
-  async run(input: unknown): Promise<CheckResult[]> {
+  async run(input: unknown) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- legacy Playwright-based check, retained for score()/fixes() logic
+    const page = input as any;
     const results: CheckResult[] = [];
 
     const { htmlDir, htmlLang, bodyDir } = await page.evaluate(() => {

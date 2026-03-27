@@ -23,7 +23,9 @@ export class LayoutMirrorCheck extends BaseCheck {
   readonly category = 'layout-mirror' as const;
   private readonly mirrorRules: IconMirrorRules = iconMirrorRules as IconMirrorRules;
 
-  async run(input: unknown): Promise<CheckResult[]> {
+  async run(input: unknown) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- legacy Playwright-based check, retained for score()/fixes() logic
+    const page = input as any;
     const results: CheckResult[] = [];
 
     const issues = await page.evaluate((rulesJson: string) => {

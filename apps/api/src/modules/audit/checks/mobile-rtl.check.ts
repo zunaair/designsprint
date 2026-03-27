@@ -11,7 +11,9 @@ import { BaseCheck } from './base.check';
 export class MobileRtlCheck extends BaseCheck {
   readonly category = 'mobile-rtl' as const;
 
-  async run(input: unknown): Promise<CheckResult[]> {
+  async run(input: unknown) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- legacy Playwright-based check, retained for score()/fixes() logic
+    const page = input as any;
     const results: CheckResult[] = [];
 
     const issues = await page.evaluate(() => {

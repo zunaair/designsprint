@@ -133,8 +133,8 @@ function MockPreview() {
                 transform={`rotate(-90 ${cx} ${cx})`}
                 style={{ transition: 'stroke-dashoffset 1.2s var(--ease-smooth)' }}
               />
-              <text x={cx} y={cx - 5} textAnchor="middle" fill="#f8fafc" fontSize="22" fontWeight="900" fontFamily="Inter,sans-serif">{MOCK.score}</text>
-              <text x={cx} y={cx + 12} textAnchor="middle" fill="#475569" fontSize="11" fontFamily="Inter,sans-serif">/100</text>
+              <text x={cx} y={cx - 5} textAnchor="middle" fill="#f8fafc" fontSize="22" fontWeight="900" fontFamily="Manrope,sans-serif">{MOCK.score}</text>
+              <text x={cx} y={cx + 12} textAnchor="middle" fill="#475569" fontSize="11" fontFamily="Manrope,sans-serif">/100</text>
             </svg>
           </div>
 
