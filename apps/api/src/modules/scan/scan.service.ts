@@ -13,9 +13,11 @@ import { CreateScanDto } from './dto/create-scan.dto';
 import {
   MAX_FREE_SCANS_PER_EMAIL_PER_DAY,
   MAX_CONCURRENT_SCANS_PER_IP,
+  TIER_FEATURES,
 } from '@designsprint/shared';
-import type { IScanResult, IAuditResult } from '@designsprint/shared';
+import type { IScanResult, IScanResultFree, IAuditResult, TierLevel } from '@designsprint/shared';
 import type { Scan } from '@prisma/client';
+import { filterScanResultByTier } from './scan.response-filter';
 
 export const SCAN_QUEUE = 'scan:single-page';
 
@@ -39,14 +41,23 @@ export class ScanService {
     @InjectQueue(SCAN_QUEUE) private readonly scanQueue: Queue<ScanJobData>,
   ) {}
 
-  async createScan(dto: CreateScanDto, clientIp: string): Promise<{ id: string }> {
+  async createScan(dto: CreateScanDto, clientIp: string, userId?: string): Promise<{ id: string }> {
     // Rate limit: max 1 concurrent scan per IP
     const currentIpCount = activeScansPerIp.get(clientIp) ?? 0;
     if (currentIpCount >= MAX_CONCURRENT_SCANS_PER_IP) {
       throw new ConflictException('A scan is already running from your IP address. Please wait for it to complete.');
     }
 
-    // Rate limit: max 3 free scans per email per 24 hours
+    // Determine tier from user or default to FREE
+    let tier: 'FREE' | 'STARTER' | 'PRO' = 'FREE';
+    if (userId) {
+      const user = await this.prisma.user.findUnique({ where: { id: userId } });
+      if (user) tier = user.tier;
+    }
+    const tierKey = tier.toLowerCase() as TierLevel;
+    const maxScans = TIER_FEATURES[tierKey].maxScansPerDay;
+
+    // Rate limit: scans per email per 24 hours (tier-dependent)
     const windowStart = new Date(Date.now() - 24 * 60 * 60 * 1000);
     const recentCount = await this.prisma.scan.count({
       where: {
@@ -54,9 +65,9 @@ export class ScanService {
         created_at: { gte: windowStart },
       },
     });
-    if (recentCount >= MAX_FREE_SCANS_PER_EMAIL_PER_DAY) {
+    if (recentCount >= maxScans) {
       throw new HttpException(
-        `Free tier allows ${MAX_FREE_SCANS_PER_EMAIL_PER_DAY} scans per email per 24 hours.`,
+        `Your plan allows ${maxScans} scans per email per 24 hours. Upgrade for more.`,
         HttpStatus.TOO_MANY_REQUESTS,
       );
     }
@@ -68,7 +79,8 @@ export class ScanService {
         email: dto.email,
         viewport: dto.viewport,
         status: 'PENDING',
-        tier: 'FREE',
+        tier,
+        ...(userId != null && { user_id: userId }),
       },
     });
 
@@ -86,14 +98,39 @@ export class ScanService {
       },
     );
 
-    this.logger.log(`Scan ${scan.id} queued for ${dto.url} [${dto.viewport}]`);
+    this.logger.log(`Scan ${scan.id} queued for ${dto.url} [${dto.viewport}] tier=${tier}`);
     return { id: scan.id };
   }
 
-  async getScan(id: string): Promise<IScanResult> {
+  /** Get scan results, filtered by user's tier */
+  async getScan(id: string, requestingUserTier?: TierLevel): Promise<IScanResult | IScanResultFree> {
     const scan = await this.prisma.scan.findUnique({ where: { id } });
     if (!scan) throw new NotFoundException(`Scan "${id}" not found`);
-    return this.toScanResult(scan);
+
+    const fullResult = this.toScanResult(scan);
+
+    // If no tier specified, use the scan's own tier
+    const tier = requestingUserTier ?? (fullResult.tier as TierLevel);
+    return filterScanResultByTier(fullResult, tier);
+  }
+
+  /** List scans for an authenticated user */
+  async listScans(userId: string, page: number = 1, limit: number = 20): Promise<{ scans: IScanResult[]; total: number }> {
+    const skip = (page - 1) * limit;
+    const [scans, total] = await Promise.all([
+      this.prisma.scan.findMany({
+        where: { user_id: userId },
+        orderBy: { created_at: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.scan.count({ where: { user_id: userId } }),
+    ]);
+
+    return {
+      scans: scans.map((s) => this.toScanResult(s)),
+      total,
+    };
   }
 
   releaseIpSlot(clientIp: string): void {
@@ -112,6 +149,7 @@ export class ScanService {
       status: scan.status.toLowerCase() as IScanResult['status'],
       tier: scan.tier.toLowerCase() as IScanResult['tier'],
       email: scan.email,
+      ...(scan.user_id != null && { userId: scan.user_id }),
       ...(scan.desktop_result != null && { desktop: scan.desktop_result as unknown as IAuditResult }),
       ...(scan.mobile_result != null && { mobile: scan.mobile_result as unknown as IAuditResult }),
       ...(scan.error != null && { error: scan.error }),

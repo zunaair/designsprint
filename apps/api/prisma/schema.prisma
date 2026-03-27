@@ -33,14 +33,23 @@ model Scan {
   created_at     DateTime   @default(now())
   completed_at   DateTime?
 
+  user_id        String?
+  user           User?      @relation(fields: [user_id], references: [id])
+
   @@index([email, created_at])
   @@index([status])
+  @@index([user_id])
 }
 
 model User {
-  id         String   @id @default(cuid())
-  clerk_id   String   @unique
-  email      String   @unique
-  tier       Tier     @default(FREE)
-  created_at DateTime @default(now())
+  id                    String   @id @default(cuid())
+  clerk_id              String   @unique
+  email                 String   @unique
+  tier                  Tier     @default(FREE)
+  paddle_customer_id    String?  @unique
+  paddle_subscription_id String? @unique
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+
+  scans                 Scan[]
 }

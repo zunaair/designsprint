@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Providers } from './providers';
+import { AuthButtons } from '../components/auth/auth-buttons';
 
 export const metadata: Metadata = {
   title: 'DesignSprint™ — Arabic UX Audit',
@@ -14,6 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body>
+        <Providers>
         {/* ── Ambient background ───────────────────────────── */}
         <div aria-hidden style={{ position: 'fixed', inset: 0, zIndex: -1, overflow: 'hidden', pointerEvents: 'none' }}>
           {/* Orbs — brand red tones */}
@@ -86,6 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', animation: 'pulse 2s ease infinite' }} />
                 API Live
               </div>
+              <AuthButtons />
             </div>
           </div>
         </header>
@@ -115,6 +119,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
         </footer>
+        </Providers>
       </body>
     </html>
   );

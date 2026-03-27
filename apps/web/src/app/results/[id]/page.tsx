@@ -2,13 +2,20 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { IScanResult, IAuditResult, CategoryScore } from '@designsprint/shared';
+import { useAuth } from '@clerk/nextjs';
 
 const API_URL = process.env['NEXT_PUBLIC_API_URL'] ?? 'http://localhost:3001';
 
 /* ── Free-tier gate ───────────────────────────────────────── */
-// Set to true once auth + billing is wired up.
-// Free tier: score + severity counts only. Details + fixes are locked.
-const IS_PRO = false;
+// The API now enforces tier filtering server-side.
+// IS_PRO is derived from the scan response: if issues[] arrays are present, the user has a paid tier.
+function deriveIsPro(scanData: IScanResult | null): boolean {
+  if (!scanData) return false;
+  const audit = scanData.desktop ?? scanData.mobile;
+  if (!audit?.categories?.[0]) return false;
+  // Free tier responses have categories without issues[] property
+  return 'issues' in audit.categories[0] && Array.isArray(audit.categories[0].issues);
+}
 
 /* ── Metadata ─────────────────────────────────────────────── */
 const CAT_META: Record<string, { icon: string; label: string; desc: string }> = {
@@ -626,11 +633,22 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
     return () => clearInterval(t);
   }, []);
 
+  // Get Clerk auth token if available
+  let getToken: (() => Promise<string | null>) | undefined;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Clerk may not be configured
+    const auth = useAuth();
+    getToken = auth.getToken;
+  } catch { /* Clerk not configured */ }
+
   useEffect(() => {
     let cancelled = false;
     async function poll() {
       try {
-        const res  = await fetch(`${API_URL}/api/scans/${id}`);
+        const token = getToken ? await getToken() : null;
+        const headers: Record<string, string> = {};
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+        const res  = await fetch(`${API_URL}/api/scans/${id}`, { headers });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json() as IScanResult;
         if (!cancelled) {
@@ -699,7 +717,7 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
               <code style={{ fontSize: 11, color: '#1e293b', background: 'rgba(255,255,255,0.04)', padding: '2px 8px', borderRadius: 6, border: '1px solid rgba(255,255,255,0.07)' }}>
                 #{scan.id.slice(-8)}
               </code>
-              {!IS_PRO && (
+              {!deriveIsPro(scan) && (
                 <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 6, color: '#94a3b8', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', letterSpacing: '0.05em' }}>
                   FREE TIER
                 </span>
@@ -762,10 +780,10 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
             </div>
           )}
 
-          {tab === 'desktop' && scan.desktop && <AuditView result={scan.desktop} isPro={IS_PRO} />}
-          {tab === 'mobile'  && scan.mobile  && <AuditView result={scan.mobile}  isPro={IS_PRO} />}
-          {!scan.desktop && scan.mobile  && <AuditView result={scan.mobile}  isPro={IS_PRO} />}
-          {scan.desktop  && !scan.mobile && <AuditView result={scan.desktop} isPro={IS_PRO} />}
+          {tab === 'desktop' && scan.desktop && <AuditView result={scan.desktop} isPro={deriveIsPro(scan)} />}
+          {tab === 'mobile'  && scan.mobile  && <AuditView result={scan.mobile}  isPro={deriveIsPro(scan)} />}
+          {!scan.desktop && scan.mobile  && <AuditView result={scan.mobile}  isPro={deriveIsPro(scan)} />}
+          {scan.desktop  && !scan.mobile && <AuditView result={scan.desktop} isPro={deriveIsPro(scan)} />}
         </>
       )}
 

@@ -16,6 +16,7 @@
     "db:studio": "prisma studio"
   },
   "dependencies": {
+    "@clerk/backend": "^3.2.3",
     "@designsprint/shared": "workspace:*",
     "@nestjs/bull": "^10.2.0",
     "@nestjs/common": "^10.0.0",

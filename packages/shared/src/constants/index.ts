@@ -33,3 +33,34 @@ export const SEVERITY_DEDUCTIONS: Record<string, number> = {
   minor: 2,
   info: 0,
 } as const;
+
+/** Feature matrix per subscription tier */
+export const TIER_FEATURES = {
+  free: {
+    maxScansPerDay: 3,
+    maxPages: 1,
+    showIssueDetails: false,
+    showFixSuggestions: false,
+    pdfExport: false,
+    competitorComparison: false,
+    apiAccess: false,
+  },
+  starter: {
+    maxScansPerDay: 20,
+    maxPages: 1,
+    showIssueDetails: true,
+    showFixSuggestions: true,
+    pdfExport: true,
+    competitorComparison: false,
+    apiAccess: false,
+  },
+  pro: {
+    maxScansPerDay: 100,
+    maxPages: 100,
+    showIssueDetails: true,
+    showFixSuggestions: true,
+    pdfExport: true,
+    competitorComparison: true,
+    apiAccess: true,
+  },
+} as const;
