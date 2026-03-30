@@ -1,6 +1,6 @@
 import { Processor, Process } from '@nestjs/bull';
 import type { Job } from 'bull';
-import { Logger } from '@nestjs/common';
+import { Inject, Logger, forwardRef } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { CrawlerService } from '../crawler/crawler.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -25,7 +25,7 @@ export class FullSiteProcessor {
   constructor(
     private readonly crawler: CrawlerService,
     private readonly prisma: PrismaService,
-    private readonly scanService: ScanService,
+    @Inject(forwardRef(() => ScanService)) private readonly scanService: ScanService,
   ) {}
 
   @Process()
