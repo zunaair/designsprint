@@ -13,6 +13,7 @@
     "@clerk/nextjs": "^7.0.7",
     "@designsprint/shared": "workspace:*",
     "next": "^14.2.0",
+    "posthog-js": "^1.364.1",
     "react": "^18.3.0",
     "react-dom": "^18.3.0"
   },
