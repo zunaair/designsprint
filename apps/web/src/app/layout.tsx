@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Providers } from './providers';
 import { AuthButtons } from '../components/auth/auth-buttons';
+import { LocaleSwitcher } from '../components/layout/locale-switcher';
 
 export const metadata: Metadata = {
   title: 'DesignSprint™ — Arabic UX Audit',
@@ -89,6 +90,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', animation: 'pulse 2s ease infinite' }} />
                 API Live
               </div>
+              <nav style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <a href="/methodology" style={{ fontSize: 13, color: '#64748b', textDecoration: 'none', padding: '4px 8px' }}>Methodology</a>
+                <a href="/pricing" style={{ fontSize: 13, color: '#64748b', textDecoration: 'none', padding: '4px 8px' }}>Pricing</a>
+              </nav>
+              <LocaleSwitcher />
               <AuthButtons />
             </div>
           </div>

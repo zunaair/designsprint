@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import type { IAuditResult, IAuditConfig, CategoryScore, CheckCategory, CheckResult, FixSuggestion } from '@designsprint/shared';
 import { ScoringService } from '../audit/scoring/scoring.service';
 import { ARABIC_REGEX } from '@designsprint/shared';
+import { isUrlAllowed } from './robots-parser';
 
 /**
  * Lightweight HTTP-based crawler that works without Playwright.
@@ -18,6 +19,15 @@ export class CrawlerService {
     desktop?: IAuditResult;
     mobile?: IAuditResult;
   }> {
+    // Check robots.txt compliance
+    if (config.respectRobotsTxt) {
+      const allowed = await isUrlAllowed(config.url);
+      if (!allowed) {
+        this.logger.warn(`URL blocked by robots.txt: ${config.url}`);
+        throw new Error(`URL is disallowed by robots.txt: ${config.url}`);
+      }
+    }
+
     const html = await this.fetchHtml(config.url);
     const result: { desktop?: IAuditResult; mobile?: IAuditResult } = {};
 

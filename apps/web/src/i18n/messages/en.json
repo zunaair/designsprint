@@ -1,0 +1,36 @@
+{
+  "nav": {
+    "home": "Home",
+    "methodology": "Methodology",
+    "pricing": "Pricing",
+    "dashboard": "Dashboard",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "hero": {
+    "badge": "Free Arabic UX Audit — No signup required",
+    "title": "Is your website ready for",
+    "titleAccent": "Arabic users?",
+    "subtitle": "Scored report across 8 Arabic UX categories — RTL layout, typography, icon mirroring, BiDi handling and more.",
+    "stats": {
+      "categories": "Check categories",
+      "points": "Point scale",
+      "time": "Scan time",
+      "free": "Free"
+    }
+  },
+  "scan": {
+    "heading": "Run a free audit",
+    "subheading": "Results in under 60 seconds, no account needed",
+    "urlLabel": "WEBSITE URL",
+    "emailLabel": "EMAIL",
+    "emailHint": "3 free scans / day",
+    "viewport": "VIEWPORT",
+    "button": "Audit this website →",
+    "scanning": "Scanning..."
+  },
+  "footer": {
+    "tagline": "Arabic UX Audit · Free tier: 3 scans / day",
+    "arabic": "صُنع بعناية للويب العربي"
+  }
+}

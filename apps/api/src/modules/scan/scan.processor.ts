@@ -33,7 +33,7 @@ export class ScanProcessor {
         url,
         viewport,
         maxPages: MAX_PAGES_FREE_TIER,
-        respectRobotsTxt: false,
+        respectRobotsTxt: true,
       });
 
       await this.prisma.scan.update({
