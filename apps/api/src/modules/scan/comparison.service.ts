@@ -101,6 +101,9 @@ export class ComparisonService {
     }
 
     const primary = scans.find((s) => s.url === comparison.primary_url);
+    if (!primary && allDone) {
+      this.logger.warn(`Comparison ${comparisonId}: primary scan for ${comparison.primary_url} not found`);
+    }
     const competitors = scans.filter((s) => s.url !== comparison.primary_url);
 
     return {
