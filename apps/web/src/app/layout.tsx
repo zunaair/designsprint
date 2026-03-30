@@ -7,6 +7,18 @@ import { LocaleSwitcher } from '../components/layout/locale-switcher';
 export const metadata: Metadata = {
   title: 'DesignSprint™ — Arabic UX Audit',
   description: 'Audit any website for Arabic RTL quality. Get a scored report across 8 categories with fix suggestions.',
+  icons: { icon: '/favicon.svg' },
+  openGraph: {
+    title: 'DesignSprint™ — Arabic UX Audit',
+    description: 'Is your website ready for Arabic users? Get a 100-point Arabic UX score in under 60 seconds.',
+    type: 'website',
+    siteName: 'DesignSprint™',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'DesignSprint™ — Arabic UX Audit',
+    description: 'Scored report across 8 Arabic UX categories. Free scan, no signup required.',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -104,24 +116,55 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
 
         {/* ── Footer ───────────────────────────────────────── */}
-        <footer style={{
-          marginTop: 96,
-          borderTop: '1px solid rgba(255,255,255,0.06)',
-          padding: '32px 24px',
-        }}>
-          <div style={{ maxWidth: 1152, margin: '0 auto', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div style={{
-                width: 24, height: 24, borderRadius: 7,
-                background: 'linear-gradient(135deg, #C7052D, #9B0423)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 10, fontWeight: 800, color: '#fff',
-              }}>DS</div>
-              <span style={{ fontSize: 13, color: '#475569', fontWeight: 600 }}>DesignSprint™</span>
+        <footer style={{ marginTop: 96, borderTop: '1px solid rgba(255,255,255,0.06)', padding: '48px 24px 32px' }}>
+          <div style={{ maxWidth: 1152, margin: '0 auto' }}>
+            {/* Top row — 4 columns */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 32, marginBottom: 40 }}>
+              {/* Brand */}
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                  <div style={{ width: 28, height: 28, borderRadius: 8, background: 'linear-gradient(135deg, #C7052D, #9B0423)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 800, color: '#fff' }}>DS</div>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: '#f8fafc' }}>DesignSprint™</span>
+                </div>
+                <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.6 }}>Automated Arabic UX auditing. 8 categories. 100-point score. Fix code included.</p>
+                <p className="arabic" style={{ fontSize: 12, color: '#334155', marginTop: 8 }}>صُنع بعناية للويب العربي</p>
+              </div>
+
+              {/* Product */}
+              <div>
+                <h4 style={{ fontSize: 12, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Product</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <a href="/" style={{ fontSize: 13, color: '#475569', textDecoration: 'none' }}>Free Scan</a>
+                  <a href="/methodology" style={{ fontSize: 13, color: '#475569', textDecoration: 'none' }}>Methodology</a>
+                  <a href="/pricing" style={{ fontSize: 13, color: '#475569', textDecoration: 'none' }}>Pricing</a>
+                  <a href="/dashboard" style={{ fontSize: 13, color: '#475569', textDecoration: 'none' }}>Dashboard</a>
+                </div>
+              </div>
+
+              {/* Resources */}
+              <div>
+                <h4 style={{ fontSize: 12, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Resources</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <a href="/methodology" style={{ fontSize: 13, color: '#475569', textDecoration: 'none' }}>Scoring Guide</a>
+                  <a href="https://github.com/zunaair/designsprint" style={{ fontSize: 13, color: '#475569', textDecoration: 'none' }}>GitHub</a>
+                </div>
+              </div>
+
+              {/* Company */}
+              <div>
+                <h4 style={{ fontSize: 12, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Company</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <span style={{ fontSize: 13, color: '#475569' }}>Pixelette Technologies</span>
+                  <a href="mailto:hello@pixelettetech.com" style={{ fontSize: 13, color: '#475569', textDecoration: 'none' }}>hello@pixelettetech.com</a>
+                  <span style={{ fontSize: 13, color: '#475569' }}>GCC Region</span>
+                </div>
+              </div>
             </div>
-            <p style={{ fontSize: 12, color: '#334155' }}>Arabic UX Audit · Free tier: 3 scans / day</p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#334155' }}>
-              <span className="arabic">صُنع بعناية للويب العربي</span>
+
+            {/* Bottom bar */}
+            <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 20, display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
+              <p style={{ fontSize: 12, color: '#334155' }}>© 2026 DesignSprint™ by Pixelette Technologies. All rights reserved.</p>
+              <p style={{ fontSize: 12, color: '#334155' }}>Free tier: 3 scans / day · 8 categories · 100 points</p>
             </div>
           </div>
         </footer>
