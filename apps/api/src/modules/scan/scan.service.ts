@@ -18,6 +18,7 @@ import {
 import type { IScanResult, IScanResultFree, IAuditResult, TierLevel } from '@designsprint/shared';
 import type { Scan } from '@prisma/client';
 import { filterScanResultByTier } from './scan.response-filter';
+import { FULLSITE_QUEUE, type FullSiteJobData } from './scan-fullsite.processor';
 
 export const SCAN_QUEUE = 'scan:single-page';
 
@@ -39,6 +40,7 @@ export class ScanService {
   constructor(
     private readonly prisma: PrismaService,
     @InjectQueue(SCAN_QUEUE) private readonly scanQueue: Queue<ScanJobData>,
+    @InjectQueue(FULLSITE_QUEUE) private readonly fullSiteQueue: Queue<FullSiteJobData>,
   ) {}
 
   async createScan(dto: CreateScanDto, clientIp: string, userId?: string): Promise<{ id: string }> {
@@ -72,6 +74,11 @@ export class ScanService {
       );
     }
 
+    // Determine scan type based on tier
+    const maxPages = TIER_FEATURES[tierKey].maxPages;
+    const isFullSite = maxPages > 1;
+    const scanType = isFullSite ? 'FULL_SITE' : 'SINGLE_PAGE';
+
     // Create the scan record in PENDING state
     const scan = await this.prisma.scan.create({
       data: {
@@ -80,6 +87,7 @@ export class ScanService {
         viewport: dto.viewport,
         status: 'PENDING',
         tier,
+        scan_type: scanType,
         ...(userId != null && { user_id: userId }),
       },
     });
@@ -87,18 +95,21 @@ export class ScanService {
     // Track IP concurrency
     activeScansPerIp.set(clientIp, (activeScansPerIp.get(clientIp) ?? 0) + 1);
 
-    // Enqueue the job
-    await this.scanQueue.add(
-      { scanId: scan.id, url: dto.url, viewport: dto.viewport as ScanJobData['viewport'], clientIp },
-      {
-        jobId: scan.id,
-        timeout: 120_000,
-        removeOnComplete: true,
-        removeOnFail: false,
-      },
-    );
+    // Route to appropriate queue based on tier
+    if (isFullSite) {
+      await this.fullSiteQueue.add(
+        { scanId: scan.id, url: dto.url, viewport: dto.viewport as ScanJobData['viewport'], maxPages, clientIp },
+        { jobId: scan.id, timeout: 600_000, removeOnComplete: true, removeOnFail: false },
+      );
+      this.logger.log(`Full-site scan ${scan.id} queued for ${dto.url} (max ${maxPages} pages) tier=${tier}`);
+    } else {
+      await this.scanQueue.add(
+        { scanId: scan.id, url: dto.url, viewport: dto.viewport as ScanJobData['viewport'], clientIp },
+        { jobId: scan.id, timeout: 120_000, removeOnComplete: true, removeOnFail: false },
+      );
+      this.logger.log(`Scan ${scan.id} queued for ${dto.url} [${dto.viewport}] tier=${tier}`);
+    }
 
-    this.logger.log(`Scan ${scan.id} queued for ${dto.url} [${dto.viewport}] tier=${tier}`);
     return { id: scan.id };
   }
 

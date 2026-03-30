@@ -110,3 +110,39 @@ export interface ITierFeatures {
   competitorComparison: boolean;
   apiAccess: boolean;
 }
+
+/** Single page result within a full-site scan */
+export interface IPageResult {
+  url: string;
+  desktop?: IAuditResult | undefined;
+  mobile?: IAuditResult | undefined;
+  error?: string | undefined;
+}
+
+/** Full-site scan result (Pro tier — up to 100 pages) */
+export interface IFullSiteScanResult {
+  id: string;
+  rootUrl: string;
+  status: 'pending' | 'running' | 'completed' | 'failed';
+  tier: TierLevel;
+  email: string;
+  userId?: string | undefined;
+  pagesScanned: number;
+  pagesTotal: number;
+  averageScore: number;
+  pages: IPageResult[];
+  createdAt: Date;
+  completedAt?: Date | undefined;
+}
+
+/** Competitor comparison result */
+export interface IComparisonResult {
+  id: string;
+  primaryUrl: string;
+  competitorUrls: string[];
+  status: 'pending' | 'running' | 'completed' | 'failed';
+  primary?: IScanResult | undefined;
+  competitors: IScanResult[];
+  createdAt: Date;
+  completedAt?: Date | undefined;
+}

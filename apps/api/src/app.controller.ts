@@ -9,7 +9,7 @@ export class AppController {
     return {
       status: 'ok',
       service: 'DesignSprint™ API',
-      version: '0.3.0',
+      version: '0.4.0',
       endpoints: {
         'POST /api/scans': 'Submit a URL for Arabic UX audit',
         'GET /api/scans/:id': 'Poll scan status and results (tier-filtered)',
@@ -19,6 +19,8 @@ export class AppController {
         'POST /api/billing/webhook': 'Paddle webhook endpoint',
         'GET /api/reports/:scanId/pdf': 'Download branded PDF report (paid tier)',
         'GET /api/fixpacks/:scanId': 'Get Fix Pack with CSS/HTML patches (paid tier)',
+        'POST /api/comparisons': 'Create competitor comparison (Pro tier)',
+        'GET /api/comparisons/:id': 'Get comparison results',
       },
     };
   }

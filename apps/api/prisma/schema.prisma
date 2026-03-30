@@ -20,15 +20,24 @@ enum Tier {
   PRO
 }
 
+enum ScanType {
+  SINGLE_PAGE
+  FULL_SITE
+  COMPARISON
+}
+
 model Scan {
   id             String     @id @default(cuid())
   url            String
   status         ScanStatus @default(PENDING)
   tier           Tier       @default(FREE)
+  scan_type      ScanType   @default(SINGLE_PAGE)
   email          String
   viewport       String
   desktop_result Json?
   mobile_result  Json?
+  page_count     Int        @default(1)
+  page_results   Json?
   error          String?
   created_at     DateTime   @default(now())
   completed_at   DateTime?
@@ -36,20 +45,42 @@ model Scan {
   user_id        String?
   user           User?      @relation(fields: [user_id], references: [id])
 
+  // Comparison support
+  comparison_id  String?
+  comparison     Comparison? @relation(fields: [comparison_id], references: [id])
+
   @@index([email, created_at])
   @@index([status])
   @@index([user_id])
+  @@index([comparison_id])
 }
 
 model User {
-  id                    String   @id @default(cuid())
-  clerk_id              String   @unique
-  email                 String   @unique
-  tier                  Tier     @default(FREE)
-  paddle_customer_id    String?  @unique
-  paddle_subscription_id String? @unique
-  created_at            DateTime @default(now())
-  updated_at            DateTime @updatedAt
+  id                     String   @id @default(cuid())
+  clerk_id               String   @unique
+  email                  String   @unique
+  tier                   Tier     @default(FREE)
+  paddle_customer_id     String?  @unique
+  paddle_subscription_id String?  @unique
+  created_at             DateTime @default(now())
+  updated_at             DateTime @updatedAt
 
-  scans                 Scan[]
+  scans                  Scan[]
+  comparisons            Comparison[]
+}
+
+model Comparison {
+  id              String     @id @default(cuid())
+  primary_url     String
+  competitor_urls String[]
+  status          ScanStatus @default(PENDING)
+  created_at      DateTime   @default(now())
+  completed_at    DateTime?
+
+  user_id         String
+  user            User       @relation(fields: [user_id], references: [id])
+
+  scans           Scan[]
+
+  @@index([user_id])
 }
