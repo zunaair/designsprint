@@ -42,7 +42,7 @@ export class FullSiteProcessor {
       const pageResults: IPageResult[] = [];
 
       // 1. Scan the root page
-      const rootResult = await this.crawler.auditUrl({ url, viewport, maxPages: 1, respectRobotsTxt: false });
+      const rootResult = await this.crawler.auditUrl({ url, viewport, maxPages: 1, respectRobotsTxt: true });
       pageResults.push({
         url,
         ...(rootResult.desktop != null && { desktop: rootResult.desktop }),
@@ -57,7 +57,7 @@ export class FullSiteProcessor {
       // 3. Crawl each discovered page
       for (const link of links) {
         try {
-          const result = await this.crawler.auditUrl({ url: link, viewport, maxPages: 1, respectRobotsTxt: false });
+          const result = await this.crawler.auditUrl({ url: link, viewport, maxPages: 1, respectRobotsTxt: true });
           const pageResult: IPageResult = { url: link };
           if (result.desktop != null) pageResult.desktop = result.desktop;
           if (result.mobile != null) pageResult.mobile = result.mobile;

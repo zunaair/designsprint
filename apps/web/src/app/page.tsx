@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useLocale } from '../i18n/use-locale';
 
 type Viewport = 'desktop' | 'mobile' | 'both';
 const API_URL = process.env['NEXT_PUBLIC_API_URL'] ?? 'http://localhost:3001';
@@ -230,6 +231,7 @@ function StepCard({ step, index }: { step: typeof STEPS[0]; index: number }) {
 /* ── Page ─────────────────────────────────────────────────── */
 export default function HomePage() {
   const router = useRouter();
+  const { t } = useLocale();
   const [url, setUrl]           = useState('');
   const [email, setEmail]       = useState('');
   const [viewport, setViewport] = useState<Viewport>('both');
@@ -269,15 +271,15 @@ export default function HomePage() {
           {/* Badge */}
           <div className="enter-up d-0 hero-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24, padding: '6px 14px', borderRadius: 999, background: 'rgba(199,5,45,0.1)', border: '1px solid rgba(199,5,45,0.26)', color: '#E6BCC5', fontSize: 12, fontWeight: 600 }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#E6BCC5', animation: 'pulse 2s ease infinite' }} />
-            Free Arabic UX Audit — No signup required
+            {t('hero.badge')}
             <span style={{ fontSize: 10, fontWeight: 700, padding: '1px 6px', borderRadius: 999, background: 'rgba(199,5,45,0.2)', color: '#E6BCC5', border: '1px solid rgba(199,5,45,0.28)' }}>Beta</span>
           </div>
 
           {/* Heading */}
           <h1 className="enter-up d-1 hero-h1 hero-text" style={{ fontSize: 'clamp(38px, 5vw, 60px)', fontWeight: 900, lineHeight: 1.08, letterSpacing: '-1.5px', marginBottom: 16 }}>
-            <span style={{ color: '#f8fafc' }}>Is your website</span><br />
-            <span style={{ color: '#f8fafc' }}>ready for</span>{' '}
-            <span className="gradient-text">Arabic users?</span>
+            <span style={{ color: '#f8fafc' }}>{t('hero.title')}</span><br />
+            <span style={{ color: '#f8fafc' }}></span>{' '}
+            <span className="gradient-text">{t('hero.titleAccent')}</span>
           </h1>
 
           {/* Arabic */}
@@ -315,8 +317,8 @@ export default function HomePage() {
             boxShadow: '0 24px 64px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.07)',
           }}>
             <div style={{ marginBottom: 22 }}>
-              <h2 style={{ fontSize: 16, fontWeight: 700, color: '#f8fafc', marginBottom: 3 }}>Run a free audit</h2>
-              <p style={{ fontSize: 13, color: '#475569' }}>Results in under 60 seconds, no account needed</p>
+              <h2 style={{ fontSize: 16, fontWeight: 700, color: '#f8fafc', marginBottom: 3 }}>{t('scan.heading')}</h2>
+              <p style={{ fontSize: 13, color: '#475569' }}>{t('scan.subheading')}</p>
             </div>
 
             <form onSubmit={e => { void handleSubmit(e); }} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -377,7 +379,7 @@ export default function HomePage() {
               <button type="submit" disabled={loading} className="btn-primary" style={{ marginTop: 4 }}>
                 {loading
                   ? <><span style={{ width: 16, height: 16, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.25)', borderTopColor: '#fff', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} />Submitting…</>
-                  : <>Audit this website <span style={{ opacity: 0.65 }}>→</span></>
+                  : <>{t('scan.button')}</>
                 }
               </button>
             </form>
