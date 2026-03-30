@@ -60,11 +60,52 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
         this.logger.log('Database tables created successfully.');
       } else {
-        this.logger.log('Database tables already exist.');
+        this.logger.log('Database tables already exist. Running migrations...');
+        await this.migrateExistingTables();
       }
     } catch (err) {
       this.logger.warn(`Table check/creation failed: ${(err as Error).message}`);
     }
+  }
+
+  /** Add columns/tables that were added in later sprints to an existing database */
+  private async migrateExistingTables(): Promise<void> {
+    const safeExec = async (sql: string, label: string) => {
+      try {
+        await this.$executeRawUnsafe(sql);
+      } catch {
+        // Column/table already exists or other non-fatal error — skip silently
+      }
+    };
+
+    // Sprint 2: Ensure enums exist
+    await safeExec(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'ScanType') THEN CREATE TYPE "ScanType" AS ENUM ('SINGLE_PAGE', 'FULL_SITE', 'COMPARISON'); END IF; END $$`, 'ScanType enum');
+
+    // Sprint 2: Add user_id to Scan
+    await safeExec(`ALTER TABLE "Scan" ADD COLUMN IF NOT EXISTS "user_id" TEXT`, 'Scan.user_id');
+
+    // Sprint 6: Add scan_type, page_count, page_results, comparison_id to Scan
+    await safeExec(`ALTER TABLE "Scan" ADD COLUMN IF NOT EXISTS "scan_type" "ScanType" NOT NULL DEFAULT 'SINGLE_PAGE'`, 'Scan.scan_type');
+    await safeExec(`ALTER TABLE "Scan" ADD COLUMN IF NOT EXISTS "page_count" INTEGER NOT NULL DEFAULT 1`, 'Scan.page_count');
+    await safeExec(`ALTER TABLE "Scan" ADD COLUMN IF NOT EXISTS "page_results" JSONB`, 'Scan.page_results');
+    await safeExec(`ALTER TABLE "Scan" ADD COLUMN IF NOT EXISTS "comparison_id" TEXT`, 'Scan.comparison_id');
+
+    // Sprint 2: Add Paddle fields to User
+    await safeExec(`ALTER TABLE "User" ADD COLUMN IF NOT EXISTS "paddle_customer_id" TEXT`, 'User.paddle_customer_id');
+    await safeExec(`ALTER TABLE "User" ADD COLUMN IF NOT EXISTS "paddle_subscription_id" TEXT`, 'User.paddle_subscription_id');
+    await safeExec(`ALTER TABLE "User" ADD COLUMN IF NOT EXISTS "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP`, 'User.updated_at');
+
+    // Sprint 6: Create Comparison table
+    await safeExec(`CREATE TABLE IF NOT EXISTS "Comparison" ("id" TEXT NOT NULL, "primary_url" TEXT NOT NULL, "competitor_urls" TEXT[] NOT NULL DEFAULT '{}', "status" "ScanStatus" NOT NULL DEFAULT 'PENDING', "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP, "completed_at" TIMESTAMP(3), "user_id" TEXT NOT NULL, CONSTRAINT "Comparison_pkey" PRIMARY KEY ("id"))`, 'Comparison table');
+
+    // Indexes
+    await safeExec(`CREATE INDEX IF NOT EXISTS "Scan_user_id_idx" ON "Scan"("user_id")`, 'Scan_user_id index');
+    await safeExec(`CREATE INDEX IF NOT EXISTS "Scan_comparison_id_idx" ON "Scan"("comparison_id")`, 'Scan_comparison_id index');
+    await safeExec(`CREATE UNIQUE INDEX IF NOT EXISTS "User_paddle_customer_id_key" ON "User"("paddle_customer_id")`, 'User paddle index');
+    await safeExec(`CREATE UNIQUE INDEX IF NOT EXISTS "User_paddle_subscription_id_key" ON "User"("paddle_subscription_id")`, 'User paddle sub index');
+    await safeExec(`CREATE INDEX IF NOT EXISTS "Comparison_user_id_idx" ON "Comparison"("user_id")`, 'Comparison index');
+
+    this.logger.log('Migration check complete.');
   }
 
   async onModuleDestroy(): Promise<void> {
