@@ -58,8 +58,8 @@ const STEPS = [
   {
     n: '02',
     icon: '🔍',
-    title: 'We scan with Playwright',
-    desc: 'A real Chromium browser loads your site in both Arabic locale and mobile viewport, then runs 8 checks.',
+    title: 'We run 8 Arabic checks',
+    desc: 'Your page is fetched and analysed across direction, CSS, typography, layout, mobile, BiDi, overflow, and font checks.',
   },
   {
     n: '03',
@@ -289,7 +289,7 @@ export default function HomePage() {
 
           <p className="enter-up d-3 hero-text" style={{ fontSize: 15, color: '#64748b', lineHeight: 1.7, marginBottom: 28, maxWidth: 480 }}>
             Scored report across <strong style={{ color: '#94a3b8', fontWeight: 600 }}>8 Arabic UX categories</strong> — RTL layout,
-            typography, icon mirroring, BiDi handling and more. Powered by a real Playwright browser.
+            typography, icon mirroring, BiDi handling and more.
           </p>
 
           {/* Stats */}
